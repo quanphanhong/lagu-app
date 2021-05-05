@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:lagu_app/messaging_appbar.dart';
 import 'package:mvc_application/view.dart';
 
 class Messaging extends StatefulWidget {
@@ -12,9 +13,7 @@ class MessagingState extends StateMVC<Messaging> {
     return MaterialApp(
       title: 'OK',
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('Username'),
-        ),
+        appBar: MessagingAppBar(),
         body: Center(
           child: Text('Test'),
         ),

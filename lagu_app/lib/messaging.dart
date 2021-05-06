@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:lagu_app/chat_list.dart';
 import 'package:lagu_app/messaging_appbar.dart';
 import 'package:mvc_application/view.dart';
 
@@ -15,7 +16,7 @@ class MessagingState extends StateMVC<Messaging> {
       home: Scaffold(
         appBar: MessagingAppBar(),
         body: Center(
-          child: Text('Test'),
+          child: ChatList(),
         ),
       ),
     );

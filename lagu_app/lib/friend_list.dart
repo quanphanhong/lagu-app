@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:lagu_app/friend_info_item_list.dart';
 import 'package:lagu_app/friend_search_bar.dart';
 import 'package:mvc_application/view.dart';
 
@@ -14,6 +15,11 @@ class FriendListState extends StateMVC<FriendList> {
       title: 'Friend List',
       home: Scaffold(
         appBar: FriendSearchBar(),
+        body: Stack(
+          children: <Widget>[
+            FriendItemList(),
+          ],
+        ),
       ),
     );
   }

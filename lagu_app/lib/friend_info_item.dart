@@ -7,6 +7,7 @@ class FriendItem extends StatelessWidget {
   int _avatarType = 0;
   String _avatar = 'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png';
   String _name = 'default';
+  String _description = 'this is a description';
 
   FriendItem.limited(this._index);
   FriendItem.full(this._index, this._avatar, this._name);
@@ -14,7 +15,7 @@ class FriendItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(5),
+      margin: EdgeInsets.symmetric(vertical: 1),
       child: Container(
         color: Colors.white,
         padding: EdgeInsets.all(20),
@@ -36,23 +37,53 @@ class FriendItem extends StatelessWidget {
             ),
             Container(
               margin: EdgeInsets.only(left: 20),
-              child: Text(
-                _name,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    child: Text(
+                      _name,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold
+                      ),
+                    ),
+                    margin: EdgeInsets.only(bottom: 5),
+                  ),
+                  Container(
+                    child: Text(
+                      _description,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: Colors.blueGrey,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                ]
+              )
+            ),
+            Expanded(
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      'Message',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(Colors.blueAccent),
+                  ),
                 ),
               ),
             )
           ],
         ),
-      ),
-      decoration: new BoxDecoration(
-        boxShadow: [BoxShadow(
-          color: Colors.black,
-          blurRadius: 5.0,
-        ),]
       ),
     );
   }

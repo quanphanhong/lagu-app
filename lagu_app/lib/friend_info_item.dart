@@ -14,36 +14,45 @@ class FriendItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
-      margin: EdgeInsets.all(10),
-      child: Row(
-        children: <Widget>[
-          Container(
-            decoration: new BoxDecoration(
-              borderRadius: BorderRadius.all(const Radius.circular(50.0)),
-              border: Border.all(color: const Color(0xFF28324E)),
-              image: new DecorationImage(
-                fit: BoxFit.fill,
-                image: _avatarType == 1 ? new NetworkImage(
-                  _avatar,
-                ) : new AssetImage('assets/images/default-avatar.png')
-              )
-            ),
-            width: 60,
-            height: 60,
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 20),
-            child: Text(
-              _name,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.bold
+      margin: EdgeInsets.all(5),
+      child: Container(
+        color: Colors.white,
+        padding: EdgeInsets.all(20),
+        child: Row(
+          children: <Widget>[
+            Container(
+              decoration: new BoxDecoration(
+                  borderRadius: BorderRadius.all(const Radius.circular(50.0)),
+                  border: Border.all(color: const Color(0xFF28324E)),
+                  image: new DecorationImage(
+                      fit: BoxFit.fill,
+                      image: _avatarType == 1 ? new NetworkImage(
+                        _avatar,
+                      ) : new AssetImage('assets/images/default-avatar.png')
+                  )
               ),
+              width: 60,
+              height: 60,
             ),
-          )
-        ],
+            Container(
+              margin: EdgeInsets.only(left: 20),
+              child: Text(
+                _name,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+      decoration: new BoxDecoration(
+        boxShadow: [BoxShadow(
+          color: Colors.black,
+          blurRadius: 5.0,
+        ),]
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:lagu_app/chat_list.dart';
 import 'package:lagu_app/messaging_appbar.dart';
+import 'package:lagu_app/messaging_input.dart';
 import 'package:mvc_application/view.dart';
 
 class Messaging extends StatefulWidget {
@@ -16,7 +17,12 @@ class MessagingState extends StateMVC<Messaging> {
       home: Scaffold(
         appBar: MessagingAppBar(),
         body: Center(
-          child: ChatList(),
+          child: Column(
+            children: [
+              ChatList(),
+              MessagingInput(),
+            ],
+          )
         ),
       ),
     );

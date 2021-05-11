@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lagu_app/Models/hobby.dart';
+import 'package:lagu_app/Models/language.dart';
 
 class User{
   static double userID;
@@ -8,6 +10,8 @@ class User{
   static String country;
   static String urlAvatar;
   static String background;
-  static List<String> hobby;
-  static Map<String, int> language;
+  static List<Hobby> hobbies;
+  static List<Language> languages;
 }
+
+

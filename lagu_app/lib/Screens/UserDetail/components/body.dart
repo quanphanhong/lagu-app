@@ -2,11 +2,13 @@ import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:lagu_app/Screens/UserDetail/components/language_list.dart';
 import 'package:lagu_app/Screens/UserDetail/components/user-flexible-appbar.dart';
-import 'package:lagu_app/Screens/UserDetail/components/hobby-list.dart';
-import 'package:lagu_app/Screens/UserDetail/components/horizontal-or-line.dart';
+import 'package:lagu_app/Screens/UserDetail/components/hobby_list.dart';
+import 'package:lagu_app/Screens/UserDetail/components/horizontal_or_line.dart';
+import 'package:lagu_app/Data/data.dart';
 
 class Body extends StatelessWidget {
   TabStyle _tabStyle = TabStyle.reactCircle;
+  final user = Data.user;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,7 @@ class Body extends StatelessWidget {
       body: CustomScrollView(
         slivers: <Widget>[
           SliverPersistentHeader(
-            delegate: CustomSliverAppBarDelegate(expandedHeight: screensize.height/4),
+            delegate: CustomSliverAppBarDelegate(expandedHeight: screensize.height/4, user: user),
             pinned: true,
             floating: true,
           ),
@@ -33,17 +35,16 @@ class Body extends StatelessWidget {
                           Text("hello hello hello hello hello"),
                           SizedBox(height: 20,),
                           HorizontalOrLine(height: 10.0, label: "Hobbies"),
-                          Hobbies(),
+                          HobbyList(),
                           HorizontalOrLine(height: 10.0, label: "Languages"),
                           LanguageList(),
-                          SizedBox(height: 165,),
+                          SizedBox(height: 135,),
                         ],
                       )
                   )
               ),
             ]
           ),)
-
         ],
       ),
     );

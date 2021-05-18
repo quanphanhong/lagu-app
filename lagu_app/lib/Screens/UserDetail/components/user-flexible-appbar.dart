@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lagu_app/Data/data.dart';
+import 'package:lagu_app/Models/user.dart';
 
 Widget BuildCoverImage(String urlCover)
 {
@@ -39,16 +41,17 @@ Widget BuildProfileImage(String urlImg, double border, double sizeAvt){
         ),
       ),
     ),
-
   );
 }
 
 
 class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
-  
+  final User user;
+
   const CustomSliverAppBarDelegate({
     @required this.expandedHeight,
+    @required this.user
   });
 
   @override
@@ -85,9 +88,9 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     child: AppBar(
       title: Row(
         children: [
-          BuildProfileImage("assets/images/avatar_sample.jpg", 2.0, 40),
+          BuildProfileImage(user.urlAvatar, 2.0, 40),
           SizedBox(width: 8,),
-          BuildUserName("Lam Hai"),
+          BuildUserName(user.nickName),
         ],
       ),
       centerTitle: true,
@@ -96,16 +99,16 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 
   Widget BuildBackground(double shrinkOffset) => Opacity(
     opacity: disappear(shrinkOffset),
-    child: BuildCoverImage("assets/images/sea_background.jpg")
+    child: BuildCoverImage(user.background)
   );
 
   Widget BuildFloating(double shrinkOffset) => Opacity(
     opacity: disappear(shrinkOffset),
     child: Column(
       children: <Widget>[
-        BuildProfileImage("assets/images/avatar_sample.jpg", 10.0, 120),
+        BuildProfileImage(user.urlAvatar, 10.0, 120),
         SizedBox(height: 10,),
-        BuildUserName("Lam Hai")
+        BuildUserName(user.nickName)
       ]
     )
   );

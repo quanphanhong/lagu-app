@@ -4,9 +4,14 @@ import 'package:lagu_app/Models/language.dart';
 
 class LanguageCard extends StatelessWidget{
 
-  Language languageText;
+  final Language item;
+  final VoidCallback onClicked;
 
-  LanguageCard(this.languageText);
+  const LanguageCard({
+    @required this.item,
+    @required this.onClicked,
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context){
@@ -34,13 +39,13 @@ class LanguageCard extends StatelessWidget{
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(languageText.languageName,
+                  Text(item.languageName,
                     style: TextStyle (
                         color: Colors.black,
                         fontSize: 18
                     ),
                   ),
-                  Text(languageText.languageStar.toString(),
+                  Text(item.languageStar.toString(),
                     style: TextStyle (
                         color: Colors.blue,
                         fontSize: 18
@@ -53,14 +58,5 @@ class LanguageCard extends StatelessWidget{
         ),
       ),
     );
-    return Card(
-      child: Row(
-        children: <Widget>[
-          Text(languageText.languageName),
-          Text(languageText.languageStar.toString())
-        ],
-      ),
-    );
   }
-
 }

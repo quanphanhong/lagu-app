@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 
 class Hobby{
-  static double hobbyID;
-  static String hobbyName;
-  static String hobbyDescription;
+  final double hobbyID;
+  final String hobbyName;
+  final String hobbyDescription;
 
+
+  const Hobby({
+    @required this.hobbyID,
+    @required this.hobbyName,
+    @required this.hobbyDescription
+  });
 }
+

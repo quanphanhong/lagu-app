@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lagu_app/Screens/Setup/setup_screen.dart';
 import 'package:lagu_app/Screens/Signup/signup_screen.dart';
 import 'package:lagu_app/Screens/Login/components/background.dart';
 import 'package:lagu_app/components/already_have_an_account_acheck.dart';
@@ -40,7 +41,16 @@ class Body extends StatelessWidget {
             ),
             RoundedButton(
               text: "LOGIN",
-              press: () {},
+              press: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return SetupScreen();
+                    },
+                  ),
+                );
+              },
             ),
             SizedBox(height: size.height * 0.03),
             AlreadyHaveAnAccountCheck(

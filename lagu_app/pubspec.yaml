@@ -30,6 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   mvc_application: ^7.1.0
   mvc_pattern: ^7.0.0
+  dropdownfield: ^1.0.3
 
 
 dev_dependencies:

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lagu_app/screens/welcome/welcome-screen.dart';
+import 'package:lagu_app/Screens/Menu/menu-screen.dart';
+import 'package:lagu_app/Screens/welcome/welcome-screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: WelcomeScreen(),
+      home: MenuScreen(),
     );
   }
 }

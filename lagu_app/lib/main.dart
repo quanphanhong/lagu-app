@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lagu_app/Screens/Menu/menu-screen.dart';
+import 'package:lagu_app/Screens/welcome/welcome-screen.dart';
 
 void main() {
   runApp(MyApp());

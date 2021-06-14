@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 const LANGUAGES_DATA = [
   {
     "name":"Vietnamese",
@@ -15,3 +17,6 @@ const LANGUAGES_DATA = [
     "star":2,
   }
 ];
+
+const kPrimaryColor = Color(0xFF127ADA);
+const kPrimaryLightColor = Color(0xFFF1E6FF);

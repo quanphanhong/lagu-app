@@ -30,6 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   mvc_application: ^7.1.0
   convex_bottom_bar: ^3.0.0
+  mvc_pattern: ^7.0.0
 
 dev_dependencies:
   flutter_test:
@@ -47,6 +48,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/icons/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -10,12 +10,12 @@ class FriendSearchBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return Material(
       child: Container(
-        decoration: new BoxDecoration(
-            boxShadow:[new BoxShadow(
-              color: Colors.black,
-              blurRadius: 5.0,
-            )]
-        ),
+        decoration: new BoxDecoration(boxShadow: [
+          new BoxShadow(
+            color: Colors.black,
+            blurRadius: 5.0,
+          )
+        ]),
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 20),
           color: Colors.indigo,
@@ -36,11 +36,9 @@ class FriendSearchBar extends StatelessWidget implements PreferredSizeWidget {
               ),
               Container(
                 child: IconButton(
-                  icon: Icon(
-                      Icons.search,
-                      color: Colors.white
-                  ),
+                  icon: Icon(Icons.search, color: Colors.white),
                   iconSize: 40,
+                  onPressed: () {},
                 ),
               )
             ],

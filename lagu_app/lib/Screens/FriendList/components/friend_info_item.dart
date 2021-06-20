@@ -5,7 +5,8 @@ import 'package:mvc_application/view.dart';
 class FriendItem extends StatelessWidget {
   int _index;
   int _avatarType = 0;
-  String _avatar = 'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png';
+  String _avatar =
+      'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png';
   String _name = 'default';
   String _description = 'this is a description';
 
@@ -27,44 +28,42 @@ class FriendItem extends StatelessWidget {
                   border: Border.all(color: const Color(0xFF28324E)),
                   image: new DecorationImage(
                       fit: BoxFit.fill,
-                      image: _avatarType == 1 ? new NetworkImage(
-                        _avatar,
-                      ) : new AssetImage('assets/images/default-avatar.png')
-                  )
-              ),
+                      image: _avatarType == 1
+                          ? new NetworkImage(
+                              _avatar,
+                            )
+                          : new AssetImage(
+                              'assets/images/default-avatar.png'))),
               width: 60,
               height: 60,
             ),
             Container(
-              margin: EdgeInsets.only(left: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    child: Text(
-                      _name,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold
+                margin: EdgeInsets.only(left: 20),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        child: Text(
+                          _name,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        margin: EdgeInsets.only(bottom: 5),
                       ),
-                    ),
-                    margin: EdgeInsets.only(bottom: 5),
-                  ),
-                  Container(
-                    child: Text(
-                      _description,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: Colors.blueGrey,
-                        fontSize: 12,
+                      Container(
+                        child: Text(
+                          _description,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontSize: 12,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ]
-              )
-            ),
+                    ])),
             Expanded(
               child: Align(
                 alignment: Alignment.centerRight,
@@ -77,8 +76,10 @@ class FriendItem extends StatelessWidget {
                     ),
                   ),
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(Colors.blueAccent),
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.blueAccent),
                   ),
+                  onPressed: () {},
                 ),
               ),
             )
@@ -87,5 +88,4 @@ class FriendItem extends StatelessWidget {
       ),
     );
   }
-  
 }

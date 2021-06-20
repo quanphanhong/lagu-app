@@ -1,54 +1,68 @@
 import 'package:lagu_app/Models/hobby.dart';
 import 'package:lagu_app/Models/language.dart';
+import 'package:lagu_app/Models/message.dart';
+import 'package:lagu_app/Models/relationship.dart';
 import 'package:lagu_app/Models/user.dart';
 
-class Data{
+class Data {
   static final List<Hobby> hobbyList = [
     Hobby(
-        hobbyID: 0,
+        hobbyId: 0,
         hobbyName: "Reading",
-        hobbyDescription: "I read every day"
-    ),
+        hobbyDescription: "I read every day",
+        additionalInfo: "Something"),
     Hobby(
-        hobbyID: 1,
+        hobbyId: 1,
         hobbyName: "Gamming",
-        hobbyDescription: "I play every day"
-    ),
+        hobbyDescription: "I play every day",
+        additionalInfo: "Just another idea"),
     Hobby(
-        hobbyID: 2,
+        hobbyId: 2,
         hobbyName: "Gyming",
-        hobbyDescription: ""
-    ),
+        hobbyDescription: "",
+        additionalInfo: "Well"),
   ];
 
   static final List<Language> languageList = [
     Language(
-        languageID: 0,
-        languageName: "VietNam",
-        languageSymbol: "",
-        languageStar: 1,
-    ),
+        languageId: 0, languageName: "VietNam", languageSymbol: "", level: 3),
     Language(
-      languageID: 1,
-      languageName: "English",
-      languageSymbol: "",
-      languageStar: 5,
-    ),
+        languageId: 1, languageName: "English", languageSymbol: "", level: 2),
     Language(
-      languageID: 0,
-      languageName: "Janpanese",
-      languageSymbol: "",
-      languageStar: 3,
-    ),
+        languageId: 0, languageName: "Janpanese", languageSymbol: "", level: 1),
   ];
 
   static final user = new User(
-      userID: 0,
-      userName: "lamsonhai",
-      nickName: "Lam Hai",
-      password: "lamhai123",
-      urlAvatar: "assets/images/avatar_sample.jpg",
-      background: "assets/images/sea_background.jpg",
+      userId: 0,
+      nickname: "lamsonhai",
+      profilePicture: "assets/images/avatar_sample.jpg",
+      coverPhoto: "assets/images/sea_background.jpg",
       hobbies: hobbyList,
       languages: languageList);
+
+  static final other_user = new User(
+      userId: 1,
+      nickname: "hihi",
+      profilePicture: "assets/images/avatar_sample.jpg",
+      coverPhoto: "assets/images/sea_background.jpg",
+      hobbies: hobbyList,
+      languages: languageList);
+
+  static final messageList = [
+    Message(
+        messageId: "0",
+        sender: "0",
+        receiver: "1",
+        sentTime: 000,
+        type: Message.TYPE_TEXT,
+        content: "Hello there")
+  ];
+
+  static final relationship = new Relationship(
+      relationshipId: "0",
+      user_1: "0",
+      user_2: "1",
+      status: Relationship.STATE_ACCEPTED,
+      actionUser: "0",
+      messages: messageList);
 }

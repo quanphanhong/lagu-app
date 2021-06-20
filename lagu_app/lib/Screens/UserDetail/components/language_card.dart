@@ -2,8 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lagu_app/Models/language.dart';
 
-class LanguageCard extends StatelessWidget{
-
+class LanguageCard extends StatelessWidget {
   final Language item;
   final VoidCallback onClicked;
 
@@ -14,7 +13,7 @@ class LanguageCard extends StatelessWidget{
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
@@ -31,25 +30,18 @@ class LanguageCard extends StatelessWidget{
                     decoration: new BoxDecoration(
                         shape: BoxShape.circle,
                         image: new DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage("")
-                        )
-                    )),
+                            fit: BoxFit.cover, image: AssetImage("")))),
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(item.languageName,
-                    style: TextStyle (
-                        color: Colors.black,
-                        fontSize: 18
-                    ),
+                  Text(
+                    item.languageName,
+                    style: TextStyle(color: Colors.black, fontSize: 18),
                   ),
-                  Text(item.languageStar.toString(),
-                    style: TextStyle (
-                        color: Colors.blue,
-                        fontSize: 18
-                    ),
+                  Text(
+                    item.level.toString(),
+                    style: TextStyle(color: Colors.blue, fontSize: 18),
                   )
                 ],
               )

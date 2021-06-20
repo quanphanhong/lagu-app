@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lagu_app/Screens/Menu/menu-screen.dart';
+<<<<<<< HEAD
 import 'package:lagu_app/Screens/welcome/welcome-screen.dart';
+=======
+import 'package:lagu_app/Screens/Welcome/welcome-screen.dart';
+>>>>>>> friend-list
 
 void main() {
   runApp(MyApp());

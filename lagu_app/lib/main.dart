@@ -1,14 +1,24 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:lagu_app/messaging.dart';
-
-import 'friend_list.dart';
-import 'login.dart';
+import 'package:lagu_app/Screens/Menu/menu-screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MaterialApp(
-    home: Login()
-  ));
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Lagu App',
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.white,
+      ),
+      home: MenuScreen(),
+    );
+  }
 }

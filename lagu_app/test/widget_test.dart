@@ -7,6 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lagu_app/Screens/FriendList/friend_list.dart';
 
 import 'package:lagu_app/main.dart';
 import 'package:lagu_app/messaging.dart';
@@ -14,7 +15,7 @@ import 'package:lagu_app/messaging.dart';
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(Messaging());
+    await tester.pumpWidget(FriendList());
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

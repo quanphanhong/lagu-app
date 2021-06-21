@@ -4,11 +4,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lagu_app/messaging.dart';
+import 'package:lagu_app/Screens/Messaging/messaging.dart';
 import 'package:lagu_app/widget/loading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'const.dart';
+import 'package:lagu_app/const.dart';
 
 class FriendList extends StatefulWidget {
   final String currentUserId;
@@ -16,8 +16,8 @@ class FriendList extends StatefulWidget {
   FriendList({Key key, @required this.currentUserId}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => FriendListState(currentUserId: currentUserId);
-
+  State<StatefulWidget> createState() =>
+      FriendListState(currentUserId: currentUserId);
 }
 
 class FriendListState extends State<FriendList> {
@@ -41,7 +41,8 @@ class FriendListState extends State<FriendList> {
   }
 
   void scrollListener() {
-    if (listScrollController.offset >= listScrollController.position.maxScrollExtent &&
+    if (listScrollController.offset >=
+            listScrollController.position.maxScrollExtent &&
         !listScrollController.position.outOfRange) {
       setState(() {
         _limit += _limitIncrement;
@@ -93,7 +94,10 @@ class FriendListState extends State<FriendList> {
               // List
               Container(
                 child: StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection('users').limit(_limit).snapshots(),
+                  stream: FirebaseFirestore.instance
+                      .collection('users')
+                      .limit(_limit)
+                      .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       return Center(
@@ -104,7 +108,8 @@ class FriendListState extends State<FriendList> {
                     } else {
                       return ListView.builder(
                         padding: EdgeInsets.all(10.0),
-                        itemBuilder: (context, index) => buildItem(context, snapshot.data.docs[index]),
+                        itemBuilder: (context, index) =>
+                            buildItem(context, snapshot.data.docs[index]),
                         itemCount: snapshot.data.docs.length,
                         controller: listScrollController,
                       );
@@ -125,8 +130,7 @@ class FriendListState extends State<FriendList> {
     );
   }
 
-  void onItemMenuPress(Choice choice) {
-  }
+  void onItemMenuPress(Choice choice) {}
 
   Future<bool> onBackPress() {
     openDialog();
@@ -138,7 +142,8 @@ class FriendListState extends State<FriendList> {
         context: context,
         builder: (BuildContext context) {
           return SimpleDialog(
-            contentPadding: EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 0.0),
+            contentPadding:
+                EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 0.0),
             children: <Widget>[
               Container(
                 color: themeColor,
@@ -157,7 +162,10 @@ class FriendListState extends State<FriendList> {
                     ),
                     Text(
                       'Exit app',
-                      style: TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold),
                     ),
                     Text(
                       'Are you sure to exit app?',
@@ -181,7 +189,8 @@ class FriendListState extends State<FriendList> {
                     ),
                     Text(
                       'CANCEL',
-                      style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: primaryColor, fontWeight: FontWeight.bold),
                     )
                   ],
                 ),
@@ -201,7 +210,8 @@ class FriendListState extends State<FriendList> {
                     ),
                     Text(
                       'YES',
-                      style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: primaryColor, fontWeight: FontWeight.bold),
                     )
                   ],
                 ),
@@ -231,25 +241,26 @@ class FriendListState extends State<FriendList> {
               Material(
                 child: data['photoUrl'] != null
                     ? CachedNetworkImage(
-                  placeholder: (context, url) => Container(
-                    child: CircularProgressIndicator(
-                      strokeWidth: 1.0,
-                      valueColor: AlwaysStoppedAnimation<Color>(themeColor),
-                    ),
-                    width: 50.0,
-                    height: 50.0,
-                    padding: EdgeInsets.all(15.0),
-                  ),
-                  imageUrl: data['photoUrl'],
-                  width: 50.0,
-                  height: 50.0,
-                  fit: BoxFit.cover,
-                )
+                        placeholder: (context, url) => Container(
+                          child: CircularProgressIndicator(
+                            strokeWidth: 1.0,
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(themeColor),
+                          ),
+                          width: 50.0,
+                          height: 50.0,
+                          padding: EdgeInsets.all(15.0),
+                        ),
+                        imageUrl: data['photoUrl'],
+                        width: 50.0,
+                        height: 50.0,
+                        fit: BoxFit.cover,
+                      )
                     : Icon(
-                  Icons.account_circle,
-                  size: 50.0,
-                  color: greyColor,
-                ),
+                        Icons.account_circle,
+                        size: 50.0,
+                        color: greyColor,
+                      ),
                 borderRadius: BorderRadius.all(Radius.circular(25.0)),
                 clipBehavior: Clip.hardEdge,
               ),
@@ -287,13 +298,14 @@ class FriendListState extends State<FriendList> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => Messaging(
-                      peerId: document.id,
-                      peerAvatar: data['photoUrl'],
-                    )));
+                          peerId: document.id,
+                          peerAvatar: data['photoUrl'],
+                        )));
           },
           color: greyColor2,
           padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         ),
         margin: EdgeInsets.only(bottom: 10.0, left: 5.0, right: 5.0),
       );

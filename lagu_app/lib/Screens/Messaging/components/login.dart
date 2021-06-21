@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lagu_app/user_handler.dart';
+import 'package:lagu_app/Screens/Messaging/components/user_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'friend_list.dart';
@@ -33,8 +33,7 @@ class LoginState extends State<Login> {
                   decoration: const InputDecoration(
                     labelText: 'Username',
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0))
-                    ),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
                   ),
                   controller: _usernameController,
                 ),
@@ -48,8 +47,7 @@ class LoginState extends State<Login> {
                   decoration: const InputDecoration(
                     labelText: 'Password',
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))
-                    ),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
                   ),
                   validator: (String value) {
                     if (value.trim().isEmpty) {
@@ -63,26 +61,24 @@ class LoginState extends State<Login> {
                   margin: EdgeInsets.only(bottom: 20),
                 ),
                 Center(
-                  child: OutlinedButton(
-                    child: Text('Login'),
-                    onPressed: () async {
-                      SharedPreferences prefs = await SharedPreferences.getInstance();
-                      var userId = await UserHandler.getUserId(_usernameController.text,
-                          _passwordController.text);
-                      prefs.setString('id', userId);
-                      if (userId != null) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => FriendList(
-                                  currentUserId: userId,
-                                )
-                            )
-                        );
-                      }
-                    },
-                  )
-                )
+                    child: OutlinedButton(
+                  child: Text('Login'),
+                  onPressed: () async {
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    var userId = await UserHandler.getUserId(
+                        _usernameController.text, _passwordController.text);
+                    prefs.setString('id', userId);
+                    if (userId != null) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FriendList(
+                                    currentUserId: userId,
+                                  )));
+                    }
+                  },
+                ))
               ],
             ),
           ),
@@ -90,5 +86,4 @@ class LoginState extends State<Login> {
       ),
     );
   }
-
 }

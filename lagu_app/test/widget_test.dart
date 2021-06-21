@@ -10,6 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:lagu_app/Screens/FriendList/friend_list.dart';
 
 import 'package:lagu_app/main.dart';
+import 'package:lagu_app/messaging.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

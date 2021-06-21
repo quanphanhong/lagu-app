@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "645981957700",
+    "firebase_url": "https://lagu-589cf-default-rtdb.firebaseio.com",
+    "project_id": "lagu-589cf",
+    "storage_bucket": "lagu-589cf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:645981957700:android:e44f2ef0e167fd85af5611",
+        "android_client_info": {
+          "package_name": "com.example.lagu_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "645981957700-jngfen78encqenkkk37fjv8dsg0fsdq0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBF4wnzrUjjWs3tdeCedfNqkmVMMt3lo4Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "645981957700-jngfen78encqenkkk37fjv8dsg0fsdq0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

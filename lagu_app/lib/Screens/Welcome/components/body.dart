@@ -3,7 +3,7 @@ import 'package:lagu_app/Screens/Login/login_screen.dart';
 import 'package:lagu_app/Screens/Signup/signup_screen.dart';
 import 'package:lagu_app/Screens/Welcome/components/background.dart';
 import 'package:lagu_app/components/rounded_button.dart';
-import 'package:lagu_app/constants.dart';
+import 'package:lagu_app/const.dart';
 
 class Body extends StatelessWidget {
   @override
@@ -19,10 +19,9 @@ class Body extends StatelessWidget {
             Image.asset(
               'assets/images/lagu_logo.png',
               height: size.height * 0.45,
-              width: size.width*0.45,
+              width: size.width * 0.45,
             ),
             SizedBox(height: size.height * 0.05),
-
             RoundedButton(
               text: "LOGIN",
               press: () {

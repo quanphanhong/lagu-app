@@ -11,16 +11,14 @@ class FriendList extends StatefulWidget {
 class FriendListState extends StateMVC<FriendList> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Friend List',
-      home: Scaffold(
-        appBar: FriendSearchBar(),
-        body: Stack(
-          children: <Widget>[
-            FriendItemList(),
-          ],
-        ),
+    return SafeArea(
+        child: Scaffold(
+      appBar: FriendSearchBar(),
+      body: Stack(
+        children: <Widget>[
+          FriendItemList(),
+        ],
       ),
-    );
+    ));
   }
 }

@@ -7,17 +7,17 @@ import 'package:lagu_app/Models/user.dart';
 class Data {
   static final List<Hobby> hobbyList = [
     Hobby(
-        hobbyId: 0,
+        hobbyId: '0',
         hobbyName: "Reading",
         hobbyDescription: "I read every day",
         additionalInfo: "Something"),
     Hobby(
-        hobbyId: 1,
+        hobbyId: '1',
         hobbyName: "Gamming",
         hobbyDescription: "I play every day",
         additionalInfo: "Just another idea"),
     Hobby(
-        hobbyId: 2,
+        hobbyId: '2',
         hobbyName: "Gyming",
         hobbyDescription: "",
         additionalInfo: "Well"),
@@ -25,11 +25,14 @@ class Data {
 
   static final List<Language> languageList = [
     Language(
-        languageId: 0, languageName: "VietNam", languageSymbol: "", level: 3),
+        languageId: '0', languageName: "VietNam", languageSymbol: "", level: 3),
     Language(
-        languageId: 1, languageName: "English", languageSymbol: "", level: 2),
+        languageId: '1', languageName: "English", languageSymbol: "", level: 2),
     Language(
-        languageId: 0, languageName: "Janpanese", languageSymbol: "", level: 1),
+        languageId: '0',
+        languageName: "Janpanese",
+        languageSymbol: "",
+        level: 1),
   ];
 
   static final user = new User(

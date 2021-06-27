@@ -78,7 +78,7 @@ class MessagingState extends State<Messaging> {
     }
     print('Group Chat Id: $groupChatId');
 
-    UserHandler.getInstance().getUser(peerId).then((user) => {
+    UserHandler.instance.getUser(peerId).then((user) => {
           setState(() {
             _nickname = user.nickname;
             _peerAvatar = user.profilePicture;

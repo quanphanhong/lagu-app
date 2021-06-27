@@ -1,14 +1,11 @@
 import 'package:mvc_application/view.dart';
 
 class Language {
-  final double languageId;
-  final String languageName;
-  final String languageSymbol;
-  final int level;
+  String languageId;
+  String languageName;
+  String languageSymbol;
+  int level;
 
   Language(
-      {@required this.languageId,
-      @required this.languageName,
-      @required this.languageSymbol,
-      @required this.level});
+      {this.languageId, this.languageName, this.languageSymbol, this.level});
 }

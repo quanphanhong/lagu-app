@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:lagu_app/Screens/Menu/menu-screen.dart';
+import 'package:lagu_app/Screens/MessageList/message_list.dart';
 import 'package:lagu_app/Screens/Messaging/messaging.dart';
 
 void main() async {
@@ -23,8 +24,6 @@ class MyApp extends StatelessWidget {
       home: MenuScreen(),
     );
     */
-    return Messaging(
-      peerId: 'P6bsBoZeCcR0bv6EeWVhE4B7tgw2',
-    );
+    return MessageList(currentUserId: 'P6bsBoZeCcR0bv6EeWVhE4B7tgw2');
   }
 }

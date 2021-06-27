@@ -239,7 +239,7 @@ class MessageListState extends State<MessageList> {
           child: Row(
             children: <Widget>[
               Material(
-                child: data['photoUrl'] != null
+                child: data['profilePicture'] != null
                     ? CachedNetworkImage(
                         placeholder: (context, url) => Container(
                           child: CircularProgressIndicator(
@@ -251,7 +251,7 @@ class MessageListState extends State<MessageList> {
                           height: 50.0,
                           padding: EdgeInsets.all(15.0),
                         ),
-                        imageUrl: data['photoUrl'],
+                        imageUrl: data['profilePicture'],
                         width: 50.0,
                         height: 50.0,
                         fit: BoxFit.cover,
@@ -292,8 +292,6 @@ class MessageListState extends State<MessageList> {
             ],
           ),
           onPressed: () async {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            prefs.setString('user-id', document.id);
             Navigator.push(
                 context,
                 MaterialPageRoute(

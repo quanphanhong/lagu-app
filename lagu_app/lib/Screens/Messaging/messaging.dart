@@ -193,37 +193,35 @@ class MessagingState extends State<Messaging> {
 
   Widget buildChatList(BuildContext context) {
     return Flexible(
-      child:
-          /*groupChatId == ''
+      child: groupChatId == ''
           ? Center(
               child: CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(themeColor)))
-          : */
-          StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection(
-                'relationships/ynQTsc1bWIhZnxGtKfZj6HyMC3x1-P6bsBoZeCcR0bv6EeWVhE4B7tgw2/messages')
-            .limit(_limit)
-            .orderBy('sentTime', descending: true)
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Center(
-                child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(themeColor)));
-          } else {
-            listMessage.addAll(snapshot.data.docs);
-            return ListView.builder(
-              padding: EdgeInsets.all(10.0),
-              itemBuilder: (context, index) =>
-                  buildItem(index, snapshot.data.docs[index]),
-              itemCount: snapshot.data.docs.length,
-              reverse: true,
-              controller: _scrollController,
-            );
-          }
-        },
-      ),
+          : StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection('relationships/$groupChatId/messages')
+                  .limit(_limit)
+                  .orderBy('sentTime', descending: true)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                      child: CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(themeColor)));
+                } else {
+                  listMessage.addAll(snapshot.data.docs);
+                  return ListView.builder(
+                    padding: EdgeInsets.all(10.0),
+                    itemBuilder: (context, index) =>
+                        buildItem(index, snapshot.data.docs[index]),
+                    itemCount: snapshot.data.docs.length,
+                    reverse: true,
+                    controller: _scrollController,
+                  );
+                }
+              },
+            ),
     );
   }
 

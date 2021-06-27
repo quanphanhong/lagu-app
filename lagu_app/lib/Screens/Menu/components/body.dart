@@ -1,6 +1,7 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:lagu_app/Screens/FriendList/friend_list.dart';
+import 'package:lagu_app/Screens/Messaging/messaging.dart';
 import 'package:lagu_app/Screens/UserDetail/user-detail.dart';
 import 'package:mvc_application/view.dart';
 
@@ -20,7 +21,11 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   int selectedIndex = 0;
   TabStyle tabStyle = TabStyle.reactCircle;
-  List<Widget> listWidges = [FriendList(), UserDetailScreen()];
+  List<Widget> listWidges = [
+    FriendList(),
+    UserDetailScreen(),
+    Messaging(peerId: '0')
+  ];
 
   bool checkIndexAvailable(index) {
     return index < listWidges.length && index >= 0;

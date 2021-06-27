@@ -8,7 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:lagu_app/Screens/Messaging/components/user_handler.dart';
+import 'package:lagu_app/Data/user_handler.dart';
+import 'package:lagu_app/Models/message.dart';
+//import 'package:lagu_app/Screens/Messaging/components/user_handler.dart';
 import 'package:lagu_app/widget/full_photo.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,13 +19,10 @@ import '../../const.dart';
 
 class Messaging extends StatefulWidget {
   final String peerId;
-  final String peerAvatar;
-  Messaging({Key key, @required this.peerId, @required this.peerAvatar})
-      : super(key: key);
+  Messaging({Key key, @required this.peerId}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() =>
-      MessagingState(peerId: peerId, peerAvatar: peerAvatar);
+  State<StatefulWidget> createState() => MessagingState(peerId: peerId);
 }
 
 class MessagingState extends State<Messaging> {
@@ -32,18 +31,17 @@ class MessagingState extends State<Messaging> {
       new TextEditingController();
   final FocusNode focusNode = FocusNode();
 
-  String peerId;
-  String peerAvatar;
-  String id;
+  String peerId = 'P6bsBoZeCcR0bv6EeWVhE4B7tgw2';
+  String uid = 'ynQTsc1bWIhZnxGtKfZj6HyMC3x1';
 
-  String _userId = '';
   String _nickname = 'nickname';
+  String _peerAvatar;
   double _appBarHeight = 60;
 
   List<QueryDocumentSnapshot> listMessage = new List.from([]);
   int _limit = 20;
   int _limitIncrement = 20;
-  String groupChatId = 'testing_group_chat';
+  String groupChatId = '';
   SharedPreferences prefs;
 
   File imageFile;
@@ -51,17 +49,7 @@ class MessagingState extends State<Messaging> {
   bool isShowSticker;
   String imageUrl;
 
-  MessagingState({Key key, @required this.peerId, @required this.peerAvatar}) {
-    getUsername();
-  }
-
-  Future getUsername() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    _userId = prefs.getString('user-id');
-    UserHandler.getNickname(_userId).then((value) => setState(() {
-          _nickname = value;
-        }));
-  }
+  MessagingState({Key key, @required this.peerId}) {}
 
   _scrollListener() {
     if (_scrollController.offset >=
@@ -83,13 +71,19 @@ class MessagingState extends State<Messaging> {
   }
 
   readLocal() async {
-    prefs = await SharedPreferences.getInstance();
-    id = prefs.getString('id') ?? '';
-    if (id.hashCode <= peerId.hashCode) {
-      groupChatId = '$id-$peerId';
+    if (uid.hashCode <= peerId.hashCode) {
+      groupChatId = '$uid-$peerId';
     } else {
-      groupChatId = '$peerId-$id';
+      groupChatId = '$peerId-$uid';
     }
+    print('Group Chat Id: $groupChatId');
+
+    UserHandler.getInstance().getUser(peerId).then((user) => {
+          setState(() {
+            _nickname = user.nickname;
+            _peerAvatar = user.profilePicture;
+          })
+        });
 
     //FirebaseFirestore.instance.collection('users').doc(id).update({'chattingWith': peerId});
 
@@ -186,6 +180,7 @@ class MessagingState extends State<Messaging> {
                     child: IconButton(
                       icon: Icon(Icons.settings, color: Colors.white),
                       iconSize: 40,
+                      onPressed: () {},
                     ),
                     margin: const EdgeInsets.only(right: 20),
                   )
@@ -198,37 +193,37 @@ class MessagingState extends State<Messaging> {
 
   Widget buildChatList(BuildContext context) {
     return Flexible(
-      child: groupChatId == ''
+      child:
+          /*groupChatId == ''
           ? Center(
               child: CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(themeColor)))
-          : StreamBuilder(
-              stream: FirebaseFirestore.instance
-                  .collection('messages')
-                  .doc(groupChatId)
-                  .collection(groupChatId)
-                  .orderBy('timestamp', descending: true)
-                  .limit(_limit)
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return Center(
-                      child: CircularProgressIndicator(
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(themeColor)));
-                } else {
-                  listMessage.addAll(snapshot.data.docs);
-                  return ListView.builder(
-                    padding: EdgeInsets.all(10.0),
-                    itemBuilder: (context, index) =>
-                        buildItem(index, snapshot.data.docs[index]),
-                    itemCount: snapshot.data.docs.length,
-                    reverse: true,
-                    controller: _scrollController,
-                  );
-                }
-              },
-            ),
+          : */
+          StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection(
+                'relationships/ynQTsc1bWIhZnxGtKfZj6HyMC3x1-P6bsBoZeCcR0bv6EeWVhE4B7tgw2/messages')
+            .limit(_limit)
+            .orderBy('sentTime', descending: true)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+                child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(themeColor)));
+          } else {
+            listMessage.addAll(snapshot.data.docs);
+            return ListView.builder(
+              padding: EdgeInsets.all(10.0),
+              itemBuilder: (context, index) =>
+                  buildItem(index, snapshot.data.docs[index]),
+              itemCount: snapshot.data.docs.length,
+              reverse: true,
+              controller: _scrollController,
+            );
+          }
+        },
+      ),
     );
   }
 
@@ -327,25 +322,6 @@ class MessagingState extends State<Messaging> {
       });
       Fluttertoast.showToast(msg: 'This file is not an Image');
     });
-
-    /*
-    StorageReference reference = FirebaseStorage.instance.ref().child(fileName);
-    StorageUploadTask uploadTask = reference.putFile(imageFile);
-    StorageTaskSnapshot storageTaskSnapshot = await uploadTask.onComplete;
-
-    storageTaskSnapshot.ref.getDownloadURL().then((downloadUrl) {
-      imageUrl = downloadUrl;
-      setState(() {
-        isLoading = false;
-        onSendMessage(imageUrl, 1);
-      });
-    }, onError: (err) {
-      setState(() {
-        isLoading = false;
-      });
-      Fluttertoast.showToast(msg: 'This file is not an image');
-    });
-     */
   }
 
   void onSendMessage(String content, int type) {
@@ -354,20 +330,20 @@ class MessagingState extends State<Messaging> {
       _textEditingController.clear();
 
       var documentReference = FirebaseFirestore.instance
-          .collection('messages')
+          .collection('relationships')
           .doc(groupChatId)
-          .collection(groupChatId)
+          .collection('messages')
           .doc(DateTime.now().millisecondsSinceEpoch.toString());
 
-      print('id = $id, peerId = $peerId');
+      print('id = $uid, peerId = $peerId');
 
       FirebaseFirestore.instance.runTransaction((transaction) async {
         transaction.set(
           documentReference,
           {
-            'idFrom': id,
-            'idTo': peerId,
-            'timestamp': DateTime.now().millisecondsSinceEpoch.toString(),
+            'sender': uid,
+            'receiver': peerId,
+            'sentTime': DateTime.now().millisecondsSinceEpoch.toString(),
             'content': content,
             'type': type
           },
@@ -385,95 +361,97 @@ class MessagingState extends State<Messaging> {
 
   Widget buildItem(int index, DocumentSnapshot document) {
     Map<String, Object> data = document.data();
-    if (data['idFrom'] == id) {
-      // Right (my message)
-      return Row(
+    if (data['sender'] == uid) {
+      return Container(
+          child: Column(
         children: <Widget>[
-          data['type'] == 0
-              // Text
-              ? Container(
-                  child: Text(
-                    data['content'],
-                    style: TextStyle(color: primaryColor),
-                  ),
-                  padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
-                  width: 200.0,
-                  decoration: BoxDecoration(
-                      color: greyColor2,
-                      borderRadius: BorderRadius.circular(8.0)),
-                  margin: EdgeInsets.only(
-                      bottom: isLastMessageRight(index) ? 20.0 : 10.0,
-                      right: 10.0),
-                )
-              : data['type'] == 1
-                  // Image
+          Row(
+            children: <Widget>[
+              data['type'] == Message.TYPE_TEXT
                   ? Container(
-                      child: FlatButton(
-                        child: Material(
-                          child: CachedNetworkImage(
-                            placeholder: (context, url) => Container(
-                              child: CircularProgressIndicator(
-                                valueColor:
-                                    AlwaysStoppedAnimation<Color>(themeColor),
-                              ),
-                              width: 200.0,
-                              height: 200.0,
-                              padding: EdgeInsets.all(70.0),
-                              decoration: BoxDecoration(
-                                color: greyColor2,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(8.0),
-                                ),
-                              ),
-                            ),
-                            errorWidget: (context, url, error) => Material(
-                              child: Image.asset(
-                                'images/img_not_available.jpeg',
-                                width: 200.0,
-                                height: 200.0,
-                                fit: BoxFit.cover,
-                              ),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              clipBehavior: Clip.hardEdge,
-                            ),
-                            imageUrl: data['content'],
-                            width: 200.0,
-                            height: 200.0,
-                            fit: BoxFit.cover,
-                          ),
-                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                          clipBehavior: Clip.hardEdge,
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      FullPhoto(url: data['content'])));
-                        },
-                        padding: EdgeInsets.all(0),
+                      child: Text(
+                        data['content'],
+                        style: TextStyle(color: primaryColor),
                       ),
+                      padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
+                      width: 200.0,
+                      decoration: BoxDecoration(
+                          color: greyColor2,
+                          borderRadius: BorderRadius.circular(8.0)),
                       margin: EdgeInsets.only(
                           bottom: isLastMessageRight(index) ? 20.0 : 10.0,
                           right: 10.0),
                     )
-                  // Sticker
-                  : Container(
-                      child: Image.asset(
-                        'images/${data['content']}.gif',
-                        width: 100.0,
-                        height: 100.0,
-                        fit: BoxFit.cover,
-                      ),
-                      margin: EdgeInsets.only(
-                          bottom: isLastMessageRight(index) ? 20.0 : 10.0,
-                          right: 10.0),
-                    ),
+                  : data['type'] == Message.TYPE_IMAGE
+                      ? Container(
+                          child: FlatButton(
+                            child: Material(
+                              child: CachedNetworkImage(
+                                placeholder: (context, url) => Container(
+                                  child: CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        themeColor),
+                                  ),
+                                  width: 200.0,
+                                  height: 200.0,
+                                  padding: EdgeInsets.all(70.0),
+                                  decoration: BoxDecoration(
+                                    color: greyColor2,
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(8.0),
+                                    ),
+                                  ),
+                                ),
+                                errorWidget: (context, url, error) => Material(
+                                  child: Image.asset(
+                                    'images/img_not_available.jpeg',
+                                    width: 200.0,
+                                    height: 200.0,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8.0),
+                                  ),
+                                  clipBehavior: Clip.hardEdge,
+                                ),
+                                imageUrl: data['content'],
+                                width: 200.0,
+                                height: 200.0,
+                                fit: BoxFit.cover,
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0)),
+                              clipBehavior: Clip.hardEdge,
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          FullPhoto(url: data['content'])));
+                            },
+                            padding: EdgeInsets.all(0),
+                          ),
+                          margin: EdgeInsets.only(
+                              bottom: isLastMessageRight(index) ? 20.0 : 10.0,
+                              right: 10.0),
+                        )
+                      : Container(
+                          child: Image.asset(
+                            'images/${data['content']}.gif',
+                            width: 100.0,
+                            height: 100.0,
+                            fit: BoxFit.cover,
+                          ),
+                          margin: EdgeInsets.only(
+                              bottom: isLastMessageRight(index) ? 20.0 : 10.0,
+                              right: 10.0),
+                        ),
+            ],
+            mainAxisAlignment: MainAxisAlignment.end,
+          )
         ],
-        mainAxisAlignment: MainAxisAlignment.end,
-      );
+      ));
     } else {
       // Left (peer message)
       return Container(
@@ -494,7 +472,7 @@ class MessagingState extends State<Messaging> {
                             height: 35.0,
                             padding: EdgeInsets.all(10.0),
                           ),
-                          imageUrl: peerAvatar,
+                          imageUrl: _peerAvatar,
                           width: 35.0,
                           height: 35.0,
                           fit: BoxFit.cover,
@@ -505,7 +483,7 @@ class MessagingState extends State<Messaging> {
                         clipBehavior: Clip.hardEdge,
                       )
                     : Container(width: 35.0),
-                data['type'] == 0
+                data['type'] == Message.TYPE_TEXT
                     ? Container(
                         child: Text(
                           data['content'],
@@ -518,7 +496,7 @@ class MessagingState extends State<Messaging> {
                             borderRadius: BorderRadius.circular(8.0)),
                         margin: EdgeInsets.only(left: 10.0),
                       )
-                    : data['type'] == 1
+                    : data['type'] == Message.TYPE_IMAGE
                         ? Container(
                             // ignore: deprecated_member_use
                             child: FlatButton(
@@ -585,14 +563,12 @@ class MessagingState extends State<Messaging> {
                           ),
               ],
             ),
-
-            // Time
             isLastMessageLeft(index)
                 ? Container(
                     child: Text(
                       DateFormat('dd MMM kk:mm').format(
                           DateTime.fromMillisecondsSinceEpoch(
-                              int.parse(data['timestamp']))),
+                              data['sentTime'])),
                       style: TextStyle(
                           color: greyColor,
                           fontSize: 12.0,
@@ -612,7 +588,7 @@ class MessagingState extends State<Messaging> {
   bool isLastMessageLeft(int index) {
     if (index == 0) return true;
     Map<String, Object> lastMessage = listMessage[index - 1].data();
-    if (index > 0 && listMessage != null && lastMessage['idFrom'] == id) {
+    if (index > 0 && listMessage != null && lastMessage['idFrom'] == uid) {
       return true;
     } else {
       return false;
@@ -622,7 +598,7 @@ class MessagingState extends State<Messaging> {
   bool isLastMessageRight(int index) {
     if (index == 0) return true;
     Map<String, Object> lastMessage = listMessage[index - 1].data();
-    if (index > 0 && listMessage != null && lastMessage['idFrom'] != id) {
+    if (index > 0 && listMessage != null && lastMessage['idFrom'] != uid) {
       return true;
     } else {
       return false;
@@ -637,7 +613,7 @@ class MessagingState extends State<Messaging> {
     } else {
       FirebaseFirestore.instance
           .collection('users')
-          .doc(id)
+          .doc(uid)
           .update({'chattingWith': null});
       Navigator.pop(context);
     }

@@ -3,7 +3,7 @@ import 'hobby.dart';
 import 'language.dart';
 
 class User {
-  final double userId;
+  final String userId;
   final String nickname;
   final String profilePicture;
   final String coverPhoto;
@@ -11,11 +11,11 @@ class User {
   final List<Language> languages;
 
   User({
-    @required this.userId,
-    @required this.nickname,
-    @required this.profilePicture,
-    @required this.coverPhoto,
-    @required this.hobbies,
-    @required this.languages,
+    this.userId,
+    this.nickname,
+    this.profilePicture,
+    this.coverPhoto,
+    this.hobbies,
+    this.languages,
   });
 }

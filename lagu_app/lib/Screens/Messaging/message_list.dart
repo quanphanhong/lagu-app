@@ -10,18 +10,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:lagu_app/const.dart';
 
-class FriendList extends StatefulWidget {
+class MessageList extends StatefulWidget {
   final String currentUserId;
 
-  FriendList({Key key, @required this.currentUserId}) : super(key: key);
+  MessageList({Key key, @required this.currentUserId}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() =>
-      FriendListState(currentUserId: currentUserId);
+      MessageListState(currentUserId: currentUserId);
 }
 
-class FriendListState extends State<FriendList> {
-  FriendListState({Key key, @required this.currentUserId});
+class MessageListState extends State<MessageList> {
+  MessageListState({Key key, @required this.currentUserId});
 
   final String currentUserId;
   final ScrollController listScrollController = ScrollController();
@@ -297,10 +297,7 @@ class FriendListState extends State<FriendList> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Messaging(
-                          peerId: document.id,
-                          peerAvatar: data['photoUrl'],
-                        )));
+                    builder: (context) => Messaging(peerId: document.id)));
           },
           color: greyColor2,
           padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),

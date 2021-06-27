@@ -13,12 +13,12 @@ class FriendListState extends StateMVC<FriendList> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      appBar: FriendSearchBar(),
-      body: Stack(
-        children: <Widget>[
-          FriendItemList(),
-        ],
-      ),
+          appBar: FriendSearchBar(),
+          body: Stack(
+            children: <Widget>[
+            FriendItemList(),
+          ],
+        ),
     ));
   }
 }

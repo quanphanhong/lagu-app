@@ -33,7 +33,7 @@ class Data {
   ];
 
   static final user = new User(
-      userId: 0,
+      userId: '0',
       nickname: "lamsonhai",
       profilePicture: "assets/images/avatar_sample.jpg",
       coverPhoto: "assets/images/sea_background.jpg",
@@ -41,7 +41,7 @@ class Data {
       languages: languageList);
 
   static final other_user = new User(
-      userId: 1,
+      userId: '1',
       nickname: "hihi",
       profilePicture: "assets/images/avatar_sample.jpg",
       coverPhoto: "assets/images/sea_background.jpg",

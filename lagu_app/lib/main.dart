@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lagu_app/Screens/Menu/menu-screen.dart';
 import 'package:lagu_app/Screens/MessageList/message_list.dart';
 import 'package:lagu_app/Screens/Messaging/messaging.dart';
+import 'package:lagu_app/Screens/UserDetail/user-detail.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +25,8 @@ class MyApp extends StatelessWidget {
       home: MenuScreen(),
     );
     */
-    return MessageList(currentUserId: 'P6bsBoZeCcR0bv6EeWVhE4B7tgw2');
+    return MaterialApp(
+      home: UserDetailScreen(),
+    );
   }
 }

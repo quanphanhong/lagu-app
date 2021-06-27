@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lagu_app/Models/language.dart';
+import 'package:lagu_app/Screens/UserDetail/components/stars.dart';
 
 class LanguageCard extends StatelessWidget {
   final Language item;
@@ -18,35 +19,22 @@ class LanguageCard extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Card(
         elevation: 8,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                    width: 20.0,
-                    height: 20.0,
-                    decoration: new BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: new DecorationImage(
-                            fit: BoxFit.cover, image: AssetImage("")))),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              child: Text(
+                item.languageName,
+                style: TextStyle(color: Colors.black, fontSize: 18),
               ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    item.languageName,
-                    style: TextStyle(color: Colors.black, fontSize: 18),
-                  ),
-                  Text(
-                    item.level.toString(),
-                    style: TextStyle(color: Colors.blue, fontSize: 18),
-                  )
-                ],
-              )
-            ],
-          ),
+              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            ),
+            Spacer(),
+            Container(
+              child: Stars(numberOfStars: item.level),
+              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            )
+          ],
         ),
       ),
     );

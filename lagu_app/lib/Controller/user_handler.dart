@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:lagu_app/Data/hobby_handler.dart';
-import 'package:lagu_app/Data/language_handler.dart';
+import 'package:lagu_app/Controller/hobby_handler.dart';
+import 'package:lagu_app/Controller/language_handler.dart';
 import 'package:lagu_app/Models/hobby.dart';
 import 'package:lagu_app/Models/language.dart';
 import 'package:lagu_app/Models/user.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lagu_app/Data/user_handler.dart';
+import 'package:lagu_app/Controller/user_handler.dart';
 import 'package:lagu_app/Models/hobby.dart';
 import 'package:lagu_app/Screens/UserDetail/components/hobby_card.dart';
 import 'package:flutter/cupertino.dart';

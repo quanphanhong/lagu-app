@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:lagu_app/Data/user_handler.dart';
+import 'package:lagu_app/Controller/user_handler.dart';
 import 'package:lagu_app/Models/message.dart';
 //import 'package:lagu_app/Screens/Messaging/components/user_handler.dart';
 import 'package:lagu_app/widget/full_photo.dart';

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lagu_app/Data/data.dart';
 import 'package:lagu_app/Models/user.dart';
 
 Widget buildCoverImage(String urlCover) {

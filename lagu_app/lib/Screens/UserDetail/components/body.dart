@@ -1,12 +1,11 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:lagu_app/Data/user_handler.dart';
+import 'package:lagu_app/Controller/user_handler.dart';
 import 'package:lagu_app/Models/user.dart';
 import 'package:lagu_app/Screens/UserDetail/components/language_list.dart';
 import 'package:lagu_app/Screens/UserDetail/components/user-flexible-appbar.dart';
 import 'package:lagu_app/Screens/UserDetail/components/hobby_list.dart';
 import 'package:lagu_app/Screens/UserDetail/components/horizontal_or_line.dart';
-import 'package:lagu_app/Data/data.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -14,7 +13,7 @@ class Body extends StatefulWidget {
 }
 
 class BodyState extends State<Body> {
-  User user = Data.userInfo;
+  User user = new User();
 
   BodyState() {
     UserHandler.instance

@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:lagu_app/Screens/Login/login_screen.dart';
 import 'package:lagu_app/Screens/Menu/menu-screen.dart';
 import 'package:lagu_app/Screens/MessageList/message_list.dart';
 import 'package:lagu_app/Screens/Messaging/messaging.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
     );
     */
     return MaterialApp(
-      home: UserDetailScreen(),
+      home: LoginScreen(),
     );
   }
 }

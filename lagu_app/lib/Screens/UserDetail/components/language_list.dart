@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lagu_app/Data/user_handler.dart';
+import 'package:lagu_app/Controller/user_handler.dart';
 import 'package:lagu_app/Models/language.dart';
 import 'package:lagu_app/Screens/UserDetail/components/language_card.dart';
 import 'package:mvc_application/view.dart';

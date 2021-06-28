@@ -1,10 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:lagu_app/Controller/auth_provider.dart';
+import 'package:lagu_app/Controller/auth_service.dart';
 import 'package:lagu_app/Screens/Login/login_screen.dart';
 import 'package:lagu_app/Screens/Menu/menu-screen.dart';
 import 'package:lagu_app/Screens/MessageList/message_list.dart';
 import 'package:lagu_app/Screens/Messaging/messaging.dart';
 import 'package:lagu_app/Screens/UserDetail/user-detail.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,22 +15,42 @@ void main() async {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class MyApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => MyAppState();
+}
+
+class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    /*
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Lagu App',
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
+    return Provider(
+      auth: AuthService(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Lagu App',
+        theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white,
+        ),
+        home: HomeController(),
       ),
-      home: MenuScreen(),
     );
-    */
-    return MaterialApp(
-      home: LoginScreen(),
+  }
+}
+
+class HomeController extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final AuthService auth = Provider.of(context).auth;
+
+    return StreamBuilder(
+      stream: auth.onAuthStateChanged,
+      builder: (context, AsyncSnapshot<User> snapshot) {
+        if (snapshot.connectionState == ConnectionState.active) {
+          final bool signedIn = snapshot.hasData;
+          return signedIn ? MenuScreen() : LoginScreen();
+        }
+        return LoginScreen();
+      },
     );
   }
 }

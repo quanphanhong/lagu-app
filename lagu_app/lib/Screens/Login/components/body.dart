@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lagu_app/Controller/auth_service.dart';
 import 'package:lagu_app/Screens/Signup/signup_screen.dart';
 import 'package:lagu_app/Screens/Login/components/background.dart';
 import 'package:lagu_app/components/already_have_an_account_acheck.dart';
@@ -14,6 +15,9 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    String email = '';
+    String password = '';
+
     return Background(
       child: SingleChildScrollView(
         child: Column(
@@ -27,20 +31,26 @@ class Body extends StatelessWidget {
             Image.asset(
               'assets/images/lagu_logo.png',
               height: size.height * 0.45,
-              width: size.width*0.45,
+              width: size.width * 0.45,
             ),
             SizedBox(height: size.height * 0.03),
             RoundedInputField(
-              hintText: "Your Email",
-              onChanged: (value) {},
+              hintText: "Email",
+              onChanged: (value) {
+                email = value;
+              },
             ),
             RoundedPasswordField(
               hintText: "Password",
-              onChanged: (value) {},
+              onChanged: (value) {
+                password = value;
+              },
             ),
             RoundedButton(
               text: "LOGIN",
-              press: () {},
+              press: () {
+                new AuthService().signInWithEmail(email, password);
+              },
             ),
             SizedBox(height: size.height * 0.03),
             AlreadyHaveAnAccountCheck(

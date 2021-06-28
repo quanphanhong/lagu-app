@@ -6,7 +6,7 @@ import 'package:lagu_app/Models/user.dart';
 Widget buildCoverImage(String urlCover) {
   return Container(
     decoration: BoxDecoration(
-      image: DecorationImage(image: AssetImage(urlCover), fit: BoxFit.cover),
+      image: DecorationImage(image: NetworkImage(urlCover), fit: BoxFit.cover),
     ),
   );
 }
@@ -26,7 +26,7 @@ Widget buildProfileImage(String urlImg, double border, double sizeAvt) {
       child: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage(urlImg),
+              image: NetworkImage(urlImg),
               fit: BoxFit.cover,
             ),
             borderRadius: BorderRadius.circular(80),

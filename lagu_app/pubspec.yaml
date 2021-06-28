@@ -37,7 +37,6 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  mvc_application: ^7.1.0
   convex_bottom_bar: ^3.0.0
   mvc_pattern: ^7.0.0
 

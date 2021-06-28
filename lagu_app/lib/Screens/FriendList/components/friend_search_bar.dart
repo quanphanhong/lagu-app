@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mvc_application/controller.dart';
 
 class FriendSearchBar extends StatelessWidget implements PreferredSizeWidget {
   final TextEditingController _controller = new TextEditingController();

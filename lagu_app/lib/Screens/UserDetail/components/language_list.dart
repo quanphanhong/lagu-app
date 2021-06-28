@@ -1,21 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lagu_app/Controller/auth_service.dart';
 import 'package:lagu_app/Controller/user_handler.dart';
 import 'package:lagu_app/Models/language.dart';
 import 'package:lagu_app/Screens/UserDetail/components/language_card.dart';
-import 'package:mvc_application/view.dart';
 
 class LanguageList extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => LanguageListState();
 }
 
-class LanguageListState extends StateMVC<LanguageList> {
+class LanguageListState extends State<LanguageList> {
   List<Language> languages = new List<Language>.empty(growable: true);
 
   LanguageListState() {
     UserHandler.instance
-        .getLanguageList('ynQTsc1bWIhZnxGtKfZj6HyMC3x1')
+        .getLanguageList(new AuthService().getCurrentUID())
         .then((languageList) => setState(() => languages = languageList));
   }
 

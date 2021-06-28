@@ -4,7 +4,6 @@ import 'package:lagu_app/Screens/FriendList/friend_list.dart';
 import 'package:lagu_app/Screens/MessageList/message_list.dart';
 import 'package:lagu_app/Screens/Messaging/messaging.dart';
 import 'package:lagu_app/Screens/UserDetail/user-detail.dart';
-import 'package:mvc_application/view.dart';
 
 const _kPages = <String, IconData>{
   'Timeline': Icons.map,

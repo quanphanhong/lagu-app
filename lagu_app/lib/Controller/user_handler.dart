@@ -1,13 +1,15 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:lagu_app/Controller/auth_service.dart';
 import 'package:lagu_app/Controller/hobby_handler.dart';
 import 'package:lagu_app/Controller/language_handler.dart';
 import 'package:lagu_app/Models/hobby.dart';
 import 'package:lagu_app/Models/language.dart';
 import 'package:lagu_app/Models/user.dart';
 
-class UserHandler {
+class UserHandler extends ChangeNotifier {
   static UserHandler instance = new UserHandler();
 
   Future<List<Hobby>> getHobbyList(String userId) async {
@@ -79,5 +81,32 @@ class UserHandler {
             });
 
     return completer.future;
+  }
+
+  Future<bool> checkIfUserExists(String uid) async {
+    bool res = false;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .get()
+        .then((doc) => {res = doc.exists ? true : false});
+    return res;
+  }
+
+  Future<void> addAdditionalInfo(
+      String profileUrl, String coverUrl, String nickname, String aboutMe) {
+    AuthService auth = new AuthService();
+    var addingInfo = {
+      "profilePicture": profileUrl,
+      "coverPhoto": coverUrl,
+      "nickname": nickname,
+      "aboutMe": aboutMe
+    };
+
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(auth.getCurrentUID())
+        .set(addingInfo)
+        .then((value) => notifyListeners());
   }
 }

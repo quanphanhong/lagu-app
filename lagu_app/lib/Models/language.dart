@@ -1,5 +1,3 @@
-import 'package:mvc_application/view.dart';
-
 class Language {
   String languageId;
   String languageName;

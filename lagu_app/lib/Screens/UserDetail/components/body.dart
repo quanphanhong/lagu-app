@@ -1,5 +1,6 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:lagu_app/Controller/auth_service.dart';
 import 'package:lagu_app/Controller/user_handler.dart';
 import 'package:lagu_app/Models/user.dart';
 import 'package:lagu_app/Screens/UserDetail/components/language_list.dart';
@@ -17,7 +18,7 @@ class BodyState extends State<Body> {
 
   BodyState() {
     UserHandler.instance
-        .getUser('ynQTsc1bWIhZnxGtKfZj6HyMC3x1')
+        .getUser(new AuthService().getCurrentUID())
         .then((userInfo) => setState(() => user = userInfo));
   }
 

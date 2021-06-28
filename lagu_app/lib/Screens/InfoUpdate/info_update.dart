@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lagu_app/Controller/user_handler.dart';
 import 'package:lagu_app/Screens/InfoUpdate/components/cover_photo_update.dart';
 import 'package:lagu_app/Screens/InfoUpdate/components/profile_picture_update.dart';
 import 'package:lagu_app/components/rounded_input_field.dart';
@@ -48,11 +49,10 @@ class InfoUpdateState extends State<InfoUpdate> {
             },
           ),
           TextButton.icon(
-            onPressed: () {
-              print(profileUrl);
-              print(nickname);
-              print(aboutMe);
-              print(coverPhoto);
+            onPressed: () async {
+              await UserHandler.instance
+                  .addAdditionalInfo(profileUrl, coverPhoto, nickname, aboutMe)
+                  .then((value) => {print('Done')});
             },
             icon: Icon(
               Icons.done,

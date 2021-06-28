@@ -21,11 +21,6 @@ class MyApp extends StatefulWidget {
 class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: InfoUpdate(),
-    );
-
-    /*
     return Provider(
       auth: AuthService(),
       child: MaterialApp(
@@ -36,11 +31,18 @@ class MyAppState extends State<MyApp> {
         ),
         home: HomeController(),
       ),
-    );*/
+    );
   }
 }
 
-class HomeController extends StatelessWidget {
+class HomeController extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => HomeState();
+}
+
+class HomeState extends State<HomeController> {
+  Widget renderingWidget = LoginScreen();
+
   @override
   Widget build(BuildContext context) {
     final AuthService auth = Provider.of(context).auth;
@@ -50,9 +52,13 @@ class HomeController extends StatelessWidget {
       builder: (context, AsyncSnapshot<User> snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
           final bool signedIn = snapshot.hasData;
-          return signedIn ? MenuScreen() : LoginScreen();
+          if (signedIn) {
+            auth.checkUserInfoUpdated().then((result) => setState(
+                () => renderingWidget = result ? MenuScreen() : InfoUpdate()));
+          } else
+            setState(() => renderingWidget = LoginScreen());
         }
-        return LoginScreen();
+        return renderingWidget;
       },
     );
   }

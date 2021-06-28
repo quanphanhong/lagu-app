@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:lagu_app/Controller/auth_service.dart';
 import 'package:lagu_app/Controller/user_handler.dart';
 import 'package:lagu_app/Models/hobby.dart';
 import 'package:lagu_app/Screens/UserDetail/components/hobby_card.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:mvc_application/view.dart';
 
 class HobbyList extends StatefulWidget {
   @override
@@ -15,7 +15,7 @@ class HobbyListState extends State<HobbyList> {
 
   HobbyListState() {
     UserHandler.instance
-        .getHobbyList('ynQTsc1bWIhZnxGtKfZj6HyMC3x1')
+        .getHobbyList(new AuthService().getCurrentUID())
         .then((hobbyList) => setState(() => hobbies = hobbyList));
   }
 

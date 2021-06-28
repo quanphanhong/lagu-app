@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lagu_app/Data/user_handler.dart';
 import 'package:lagu_app/Models/language.dart';
 import 'package:lagu_app/Screens/UserDetail/components/language_card.dart';
 import 'package:mvc_application/view.dart';
-import 'package:lagu_app/Data/data.dart';
 
 class LanguageList extends StatefulWidget {
   @override
@@ -11,7 +11,13 @@ class LanguageList extends StatefulWidget {
 }
 
 class LanguageListState extends StateMVC<LanguageList> {
-  final languages = List.from(Data.languageList);
+  List<Language> languages = new List<Language>.empty(growable: true);
+
+  LanguageListState() {
+    UserHandler.instance
+        .getLanguageList('ynQTsc1bWIhZnxGtKfZj6HyMC3x1')
+        .then((languageList) => setState(() => languages = languageList));
+  }
 
   @override
   Widget build(BuildContext context) {

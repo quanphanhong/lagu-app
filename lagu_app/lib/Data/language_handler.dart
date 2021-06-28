@@ -10,7 +10,7 @@ class LanguageHandler {
     Completer<Language> completer = new Completer<Language>();
 
     FirebaseFirestore.instance
-        .doc('hobbies/$id')
+        .doc('languages/$id')
         .get()
         .then((DocumentSnapshot snapshot) => {
               if (snapshot.exists)

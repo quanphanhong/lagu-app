@@ -35,7 +35,7 @@ class Data {
         level: 1),
   ];
 
-  static final user = new User(
+  static final userInfo = new User(
       userId: '0',
       nickname: "lamsonhai",
       profilePicture: "assets/images/avatar_sample.jpg",

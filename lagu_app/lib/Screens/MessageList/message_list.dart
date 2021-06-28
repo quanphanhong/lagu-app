@@ -4,6 +4,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lagu_app/Controller/auth_service.dart';
+import 'package:lagu_app/Controller/user_handler.dart';
 import 'package:lagu_app/Screens/Messaging/messaging.dart';
 import 'package:lagu_app/widget/loading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,19 +13,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lagu_app/const.dart';
 
 class MessageList extends StatefulWidget {
-  final String currentUserId;
-
-  MessageList({Key key, @required this.currentUserId}) : super(key: key);
-
   @override
-  State<StatefulWidget> createState() =>
-      MessageListState(currentUserId: currentUserId);
+  State<StatefulWidget> createState() => MessageListState();
 }
 
 class MessageListState extends State<MessageList> {
-  MessageListState({Key key, @required this.currentUserId});
-
-  final String currentUserId;
+  String currentUserId = 'ynQTsc1bWIhZnxGtKfZj6HyMC3x1';
   final ScrollController listScrollController = ScrollController();
 
   int _limit = 20;
@@ -38,6 +33,7 @@ class MessageListState extends State<MessageList> {
   void initState() {
     super.initState();
     listScrollController.addListener(scrollListener);
+    setState(() => currentUserId = AuthService().getCurrentUID());
   }
 
   void scrollListener() {

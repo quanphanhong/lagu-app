@@ -1,16 +1,17 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:lagu_app/Screens/FriendList/friend_list.dart';
+import 'package:lagu_app/Screens/MessageList/message_list.dart';
 import 'package:lagu_app/Screens/Messaging/messaging.dart';
 import 'package:lagu_app/Screens/UserDetail/user-detail.dart';
 import 'package:mvc_application/view.dart';
 
 const _kPages = <String, IconData>{
-  'discover': Icons.map,
-  'friends': Icons.people,
-  'me': Icons.account_circle,
-  'message': Icons.message,
-  'home': Icons.home,
+  'Timeline': Icons.map,
+  'Friends': Icons.people,
+  '': Icons.account_circle,
+  'Messages': Icons.message,
+  'Settings': Icons.settings,
 };
 
 class Body extends StatefulWidget {
@@ -21,11 +22,7 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   int selectedIndex = 0;
   TabStyle tabStyle = TabStyle.reactCircle;
-  List<Widget> listWidges = [
-    FriendList(),
-    UserDetailScreen(),
-    Messaging(peerId: '0')
-  ];
+  List<Widget> listWidges = [FriendList(), UserDetailScreen(), MessageList()];
 
   bool checkIndexAvailable(index) {
     return index < listWidges.length && index >= 0;

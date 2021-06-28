@@ -2,12 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:lagu_app/Controller/file_handler.dart';
 
 class ProfilePictureUpdate extends StatefulWidget {
+  final ValueChanged<String> onChanged;
+
+  ProfilePictureUpdate({this.onChanged});
+
   @override
-  State<StatefulWidget> createState() => ProfilePictureState();
+  State<StatefulWidget> createState() =>
+      ProfilePictureState(onChanged: onChanged);
 }
 
 class ProfilePictureState extends State<ProfilePictureUpdate> {
-  String photoUrl = '';
+  String profilePicture = '';
+  final ValueChanged<String> onChanged;
+
+  ProfilePictureState({this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +26,8 @@ class ProfilePictureState extends State<ProfilePictureUpdate> {
           height: 120.0,
           decoration: BoxDecoration(
               image: DecorationImage(
-                image: (photoUrl != '')
-                    ? NetworkImage(photoUrl)
+                image: (profilePicture != '')
+                    ? NetworkImage(profilePicture)
                     : AssetImage('assets/images/default-avatar.png'),
                 fit: BoxFit.cover,
               ),
@@ -31,9 +39,8 @@ class ProfilePictureState extends State<ProfilePictureUpdate> {
         ),
       ),
       onTap: () {
-        FileHandler.instance
-            .getImage()
-            .then((url) => setState(() => photoUrl = url));
+        FileHandler.instance.getImage().then(
+            (url) => setState(() => {profilePicture = url, onChanged(url)}));
       },
     );
   }

@@ -5,6 +5,8 @@ class FriendSearchBar extends StatelessWidget implements PreferredSizeWidget {
   final TextEditingController _controller = new TextEditingController();
   final double _height = 60;
 
+  ValueChanged<String> searchQueryChanged;
+
   @override
   Widget build(BuildContext context) {
     return Material(

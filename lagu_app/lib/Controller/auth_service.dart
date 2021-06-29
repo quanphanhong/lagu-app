@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AuthService {
   static const OK = 0;
@@ -27,8 +28,10 @@ class AuthService {
       return OK;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
+        Fluttertoast.showToast(msg: 'Your password is too weak!');
         return ERR_WEAK_PASSWORD;
       } else if (e.code == 'email-already-in-use') {
+        Fluttertoast.showToast(msg: 'Your email has been used!');
         return ERR_INVALID_EMAIL;
       }
     } catch (e) {

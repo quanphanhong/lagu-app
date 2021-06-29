@@ -58,7 +58,7 @@ class HomeState extends State<HomeController> {
           } else
             setState(() => renderingWidget = LoginScreen());
         }
-        return renderingWidget;
+        return renderingWidget == null ? LoginScreen() : renderingWidget;
       },
     );
   }

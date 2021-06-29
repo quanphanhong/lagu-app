@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:lagu_app/Controller/auth_service.dart';
 import 'package:lagu_app/Controller/hobby_handler.dart';
 import 'package:lagu_app/Controller/language_handler.dart';
@@ -9,7 +8,7 @@ import 'package:lagu_app/Models/hobby.dart';
 import 'package:lagu_app/Models/language.dart';
 import 'package:lagu_app/Models/user.dart';
 
-class UserHandler extends ChangeNotifier {
+class UserHandler {
   static UserHandler instance = new UserHandler();
 
   Future<List<Hobby>> getHobbyList(String userId) async {
@@ -106,7 +105,6 @@ class UserHandler extends ChangeNotifier {
     return FirebaseFirestore.instance
         .collection('users')
         .doc(auth.getCurrentUID())
-        .set(addingInfo)
-        .then((value) => notifyListeners());
+        .set(addingInfo);
   }
 }

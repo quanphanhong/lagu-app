@@ -53,7 +53,7 @@ class MessageListState extends State<MessageList> {
       home: Scaffold(
         appBar: AppBar(
           title: Text(
-            'Friend List',
+            'Messages',
             style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),
           ),
           centerTitle: true,

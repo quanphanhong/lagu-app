@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lagu_app/Controller/auth_provider.dart';
 import 'package:lagu_app/Controller/auth_service.dart';
 import 'package:lagu_app/Screens/Signup/signup_screen.dart';
 import 'package:lagu_app/Screens/Login/components/background.dart';
@@ -49,7 +50,7 @@ class Body extends StatelessWidget {
             RoundedButton(
               text: "LOGIN",
               press: () {
-                new AuthService().signInWithEmail(email, password);
+                Provider.of(context).auth.signInWithEmail(email, password);
               },
             ),
             SizedBox(height: size.height * 0.03),

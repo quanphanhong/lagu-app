@@ -1,5 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:lagu_app/Controller/user_handler.dart';
 
 class AuthService {
   static const OK = 0;
@@ -18,17 +18,6 @@ class AuthService {
 
   String getCurrentUID() {
     return FirebaseAuth.instance.currentUser.uid;
-  }
-
-  Future<bool> checkUserInfoUpdated() async {
-    bool result = false;
-    try {
-      result = await UserHandler.instance.checkIfUserExists(getCurrentUID());
-    } catch (e) {
-      result = false;
-    }
-
-    return result;
   }
 
   createUserWithEmail(String email, String password) async {

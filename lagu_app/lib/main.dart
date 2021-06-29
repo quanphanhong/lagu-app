@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:lagu_app/Controller/auth_provider.dart';
@@ -41,7 +42,7 @@ class HomeController extends StatefulWidget {
 }
 
 class HomeState extends State<HomeController> {
-  Widget renderingWidget = LoginScreen();
+  Widget renderingWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -53,12 +54,18 @@ class HomeState extends State<HomeController> {
         if (snapshot.connectionState == ConnectionState.active) {
           final bool signedIn = snapshot.hasData;
           if (signedIn) {
-            auth.checkUserInfoUpdated().then((result) => setState(
-                () => renderingWidget = result ? MenuScreen() : InfoUpdate()));
+            return StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(auth.getCurrentUID())
+                    .snapshots(),
+                builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                  return (snapshot.data.exists) ? MenuScreen() : InfoUpdate();
+                });
           } else
-            setState(() => renderingWidget = LoginScreen());
+            return LoginScreen();
         }
-        return renderingWidget == null ? LoginScreen() : renderingWidget;
+        return LoginScreen();
       },
     );
   }

@@ -82,16 +82,6 @@ class UserHandler {
     return completer.future;
   }
 
-  Future<bool> checkIfUserExists(String uid) async {
-    bool res = false;
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .get()
-        .then((doc) => {res = doc.exists ? true : false});
-    return res;
-  }
-
   Future<void> addAdditionalInfo(
       String profileUrl, String coverUrl, String nickname, String aboutMe) {
     AuthService auth = new AuthService();

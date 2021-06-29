@@ -1,12 +1,14 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:lagu_app/Screens/Explore/explore.dart';
 import 'package:lagu_app/Screens/FriendList/friend_list.dart';
 import 'package:lagu_app/Screens/MessageList/message_list.dart';
 import 'package:lagu_app/Screens/Messaging/messaging.dart';
+import 'package:lagu_app/Screens/Settings/settings.dart';
 import 'package:lagu_app/Screens/UserDetail/user-detail.dart';
 
 const _kPages = <String, IconData>{
-  'Timeline': Icons.map,
+  'Explore': Icons.map,
   'Friends': Icons.people,
   '': Icons.account_circle,
   'Messages': Icons.message,
@@ -19,9 +21,15 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  int selectedIndex = 0;
+  int selectedIndex = 2;
   TabStyle tabStyle = TabStyle.reactCircle;
-  List<Widget> listWidges = [FriendList(), UserDetailScreen(), MessageList()];
+  List<Widget> listWidges = [
+    Explore(),
+    FriendList(),
+    UserDetailScreen(),
+    MessageList(),
+    Settings()
+  ];
 
   bool checkIndexAvailable(index) {
     return index < listWidges.length && index >= 0;
@@ -29,9 +37,8 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return DefaultTabController(
-        length: 5,
+        length: listWidges.length,
         initialIndex: 2,
         child: Scaffold(
           body: listWidges[selectedIndex],

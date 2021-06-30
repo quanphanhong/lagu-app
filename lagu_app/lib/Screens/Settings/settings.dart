@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lagu_app/Controller/auth_service.dart';
+import 'package:lagu_app/Screens/Settings/components/settings_button.dart';
+import 'package:lagu_app/Screens/UserDetail/components/horizontal_or_line.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -15,11 +17,26 @@ class SettingsState extends State<Settings> {
       ),
       body: Column(
         children: [
-          TextButton(
-              onPressed: () {
-                new AuthService().signOut();
-              },
-              child: Text('Sign Out'))
+          HorizontalOrLine(height: 10.0, label: "User"),
+          SettingsButton(
+            title: 'Account Info',
+            onPressed: () {},
+          ),
+          SettingsButton(
+            title: 'Hobbies',
+            onPressed: () {},
+          ),
+          SettingsButton(
+            title: 'Languages',
+            onPressed: () {},
+          ),
+          HorizontalOrLine(height: 10.0, label: "Other"),
+          SettingsButton(
+            title: 'Sign Out',
+            onPressed: () {
+              new AuthService().signOut();
+            },
+          )
         ],
       ),
     );

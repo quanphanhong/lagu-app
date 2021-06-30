@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lagu_app/Controller/auth_service.dart';
 import 'package:lagu_app/Controller/user_handler.dart';
 import 'package:lagu_app/Models/message.dart';
 //import 'package:lagu_app/Screens/Messaging/components/user_handler.dart';
@@ -31,8 +32,8 @@ class MessagingState extends State<Messaging> {
       new TextEditingController();
   final FocusNode focusNode = FocusNode();
 
-  String peerId = 'P6bsBoZeCcR0bv6EeWVhE4B7tgw2';
-  String uid = 'ynQTsc1bWIhZnxGtKfZj6HyMC3x1';
+  String peerId = '';
+  String uid = '';
 
   String _nickname = '';
   String _peerAvatar;
@@ -48,7 +49,7 @@ class MessagingState extends State<Messaging> {
   bool isShowSticker;
   String imageUrl;
 
-  MessagingState({Key key, @required this.peerId}) {}
+  MessagingState({Key key, @required this.peerId});
 
   _scrollListener() {
     if (_scrollController.offset >=
@@ -100,6 +101,7 @@ class MessagingState extends State<Messaging> {
     isLoading = false;
     isShowSticker = false;
     imageUrl = '';
+    uid = new AuthService().getCurrentUID();
 
     readLocal();
   }

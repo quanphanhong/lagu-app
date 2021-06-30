@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lagu_app/Controller/user_handler.dart';
 import 'package:lagu_app/const.dart';
 
 class FriendItemList extends StatelessWidget {
@@ -10,7 +11,7 @@ class FriendItemList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Flexible(
       child: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('users').snapshots(),
+        stream: UserHandler.instance.friendStream(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(

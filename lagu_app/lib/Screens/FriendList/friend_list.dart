@@ -8,6 +8,8 @@ class FriendList extends StatefulWidget {
 }
 
 class FriendListState extends State<FriendList> {
+  String searchQuery = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +22,9 @@ class FriendListState extends State<FriendList> {
                   color: Colors.white,
                   fontSize: 25,
                 ),
-                onChanged: (value) {},
+                onChanged: (value) {
+                  setState(() => searchQuery = value);
+                },
                 decoration: InputDecoration.collapsed(
                   hintText: 'Search for friends...',
                   hintStyle: TextStyle(color: Colors.white70),

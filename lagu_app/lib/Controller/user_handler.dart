@@ -6,7 +6,10 @@ import 'package:lagu_app/Controller/hobby_handler.dart';
 import 'package:lagu_app/Controller/language_handler.dart';
 import 'package:lagu_app/Models/hobby.dart';
 import 'package:lagu_app/Models/language.dart';
+import 'package:lagu_app/Models/relationship.dart';
 import 'package:lagu_app/Models/user.dart';
+
+import 'auth_provider.dart';
 
 class UserHandler {
   static UserHandler instance = new UserHandler();
@@ -96,5 +99,30 @@ class UserHandler {
         .collection('users')
         .doc(auth.getCurrentUID())
         .set(addingInfo);
+  }
+
+  Stream<QuerySnapshot> friendStream({String query = ''}) async* {
+    // Get ID: FieldPath.documentId
+    AuthService auth = new AuthService();
+    List<String> friendIDs = new List.empty(growable: true);
+    String currentUID = auth.getCurrentUID();
+    await FirebaseFirestore.instance
+        .collection('relationships')
+        .where(FieldPath.documentId, isGreaterThanOrEqualTo: currentUID)
+        .where(FieldPath.documentId, isLessThan: currentUID + 'z')
+        .where('status', isEqualTo: Relationship.STATE_ACCEPTED)
+        .get()
+        .then((collection) => {
+              collection.docs.forEach((doc) {
+                if (doc['user_1'] == currentUID)
+                  friendIDs.add(doc['user_2']);
+                else
+                  friendIDs.add(doc['user_1']);
+              })
+            });
+    yield* FirebaseFirestore.instance
+        .collection('users')
+        .where(FieldPath.documentId, whereIn: friendIDs)
+        .snapshots();
   }
 }

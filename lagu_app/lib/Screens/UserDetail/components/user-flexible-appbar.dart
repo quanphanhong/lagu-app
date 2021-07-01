@@ -54,6 +54,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 
     return Stack(
       fit: StackFit.expand,
+      // ignore: deprecated_member_use
       overflow: Overflow.visible,
       children: [
         buildBackground(shrinkOffset),

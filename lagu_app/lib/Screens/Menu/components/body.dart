@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:lagu_app/Screens/Explore/explore.dart';
 import 'package:lagu_app/Screens/FriendList/friend_list.dart';
 import 'package:lagu_app/Screens/MessageList/message_list.dart';
-import 'package:lagu_app/Screens/Messaging/messaging.dart';
 import 'package:lagu_app/Screens/Settings/settings.dart';
 import 'package:lagu_app/Screens/UserDetail/user-detail.dart';
 
@@ -43,7 +42,7 @@ class _BodyState extends State<Body> {
         child: Scaffold(
           body: listWidges[selectedIndex],
           bottomNavigationBar: ConvexAppBar.badge(
-            const <int, dynamic>{3: '99+'},
+            const <int, dynamic>{},
             style: tabStyle,
             items: <TabItem>[
               for (final entry in _kPages.entries)

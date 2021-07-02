@@ -3,12 +3,17 @@ import 'package:lagu_app/Controller/file_handler.dart';
 
 class ProfilePictureUpdate extends StatefulWidget {
   final ValueChanged<String> onChanged;
+  ProfilePictureState _profilePictureState;
 
   ProfilePictureUpdate({this.onChanged});
 
+  setProfilePicture(String url) => _profilePictureState.setProfilePicture(url);
+
   @override
-  State<StatefulWidget> createState() =>
-      ProfilePictureState(onChanged: onChanged);
+  State<StatefulWidget> createState() {
+    _profilePictureState = ProfilePictureState(onChanged: onChanged);
+    return _profilePictureState;
+  }
 }
 
 class ProfilePictureState extends State<ProfilePictureUpdate> {
@@ -16,6 +21,10 @@ class ProfilePictureState extends State<ProfilePictureUpdate> {
   final ValueChanged<String> onChanged;
 
   ProfilePictureState({this.onChanged});
+
+  setProfilePicture(String url) {
+    setState(() => profilePicture = url);
+  }
 
   @override
   Widget build(BuildContext context) {

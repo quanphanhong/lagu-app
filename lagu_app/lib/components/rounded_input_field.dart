@@ -6,13 +6,18 @@ class RoundedInputField extends StatelessWidget {
   final String hintText;
   final IconData icon;
   final ValueChanged<String> onChanged;
+  TextEditingController _controller = new TextEditingController();
 
-  const RoundedInputField({
+  RoundedInputField({
     Key key,
     this.hintText,
     this.icon = Icons.person,
     this.onChanged,
   }) : super(key: key);
+
+  setText(String content) {
+    _controller.text = content;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +33,7 @@ class RoundedInputField extends StatelessWidget {
           hintText: hintText,
           border: InputBorder.none,
         ),
+        controller: _controller,
       ),
     );
   }

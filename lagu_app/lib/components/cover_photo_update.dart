@@ -3,11 +3,17 @@ import 'package:lagu_app/Controller/file_handler.dart';
 
 class CoverPhotoUpdate extends StatefulWidget {
   final ValueChanged<String> onChanged;
+  CoverPhotoState _coverPhotoState;
 
   CoverPhotoUpdate({this.onChanged});
 
+  setCoverPhoto(String url) => _coverPhotoState.setCoverPhoto(url);
+
   @override
-  State<StatefulWidget> createState() => CoverPhotoState(onChanged: onChanged);
+  State<StatefulWidget> createState() {
+    _coverPhotoState = CoverPhotoState(onChanged: onChanged);
+    return _coverPhotoState;
+  }
 }
 
 class CoverPhotoState extends State<CoverPhotoUpdate> {
@@ -15,6 +21,8 @@ class CoverPhotoState extends State<CoverPhotoUpdate> {
   final ValueChanged<String> onChanged;
 
   CoverPhotoState({this.onChanged});
+
+  setCoverPhoto(String url) => setState(() => coverPhoto = url);
 
   @override
   Widget build(BuildContext context) {

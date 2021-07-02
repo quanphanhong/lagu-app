@@ -75,6 +75,7 @@ class UserHandler {
                       nickname: snapshot.get('nickname'),
                       profilePicture: snapshot.get('profilePicture'),
                       coverPhoto: snapshot.get('coverPhoto'),
+                      aboutMe: snapshot.get('aboutMe'),
                       hobbies: hobbies,
                       languages: languages))
                 }

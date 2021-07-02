@@ -23,11 +23,7 @@ class MyApp extends StatefulWidget {
 class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: AccountInfo(),
-    );
-    /*return Provider(
+    return Provider(
       auth: AuthService(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -37,7 +33,7 @@ class MyAppState extends State<MyApp> {
         ),
         home: HomeController(),
       ),
-    );*/
+    );
   }
 }
 

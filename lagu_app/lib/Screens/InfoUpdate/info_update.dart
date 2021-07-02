@@ -51,7 +51,7 @@ class InfoUpdateState extends State<InfoUpdate> {
           TextButton.icon(
             onPressed: () async {
               await UserHandler.instance
-                  .addAdditionalInfo(profileUrl, coverPhoto, nickname, aboutMe);
+                  .insertCurrentUserInfo(profileUrl, coverPhoto, nickname, aboutMe);
             },
             icon: Icon(
               Icons.done,

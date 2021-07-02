@@ -86,7 +86,7 @@ class UserHandler {
     return completer.future;
   }
 
-  Future<void> addAdditionalInfo(
+  Future<void> insertCurrentUserInfo(
       String profileUrl, String coverUrl, String nickname, String aboutMe) {
     AuthService auth = new AuthService();
     var addingInfo = {
@@ -100,6 +100,21 @@ class UserHandler {
         .collection('users')
         .doc(auth.getCurrentUID())
         .set(addingInfo);
+  }
+
+  Future<void> updateUserInfo(String uid, String profileUrl, String coverUrl,
+      String nickname, String aboutMe) {
+    var addingInfo = {
+      "profilePicture": profileUrl,
+      "coverPhoto": coverUrl,
+      "nickname": nickname,
+      "aboutMe": aboutMe
+    };
+
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .update(addingInfo);
   }
 
   Stream<QuerySnapshot> friendStream({String query = ''}) async* {

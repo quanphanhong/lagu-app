@@ -11,28 +11,44 @@ class AccountInfo extends StatefulWidget {
 }
 
 class AccountInfoState extends State<AccountInfo> {
-  final ProfilePictureUpdate _profilePictureUpdate = ProfilePictureUpdate(
-    onChanged: (value) {},
-  );
-  final CoverPhotoUpdate _coverPhotoUpdate = CoverPhotoUpdate(
-    onChanged: (value) {},
-  );
-  final RoundedInputField _nicknameUpdate = RoundedInputField(
-    hintText: 'Nickname',
-    onChanged: (value) {},
-  );
-  final RoundedInputField _aboutMeUpdate = RoundedInputField(
-    hintText: 'About me',
-    icon: Icons.info_sharp,
-    onChanged: (value) {},
-  );
+  ProfilePictureUpdate _profilePictureUpdate;
+  CoverPhotoUpdate _coverPhotoUpdate;
+  RoundedInputField _nicknameUpdate;
+  RoundedInputField _aboutMeUpdate;
 
   String profilePicture = '';
   String coverPhoto = '';
   String nickname = '';
   String aboutMe = '';
 
+  init() {
+    _profilePictureUpdate = ProfilePictureUpdate(
+      onChanged: (value) {
+        profilePicture = value;
+      },
+    );
+    _coverPhotoUpdate = CoverPhotoUpdate(
+      onChanged: (value) {
+        coverPhoto = value;
+      },
+    );
+    _nicknameUpdate = RoundedInputField(
+      hintText: 'Nickname',
+      onChanged: (value) {
+        nickname = value;
+      },
+    );
+    _aboutMeUpdate = RoundedInputField(
+      hintText: 'About me',
+      icon: Icons.info_sharp,
+      onChanged: (value) {
+        aboutMe = value;
+      },
+    );
+  }
+
   AccountInfoState() {
+    init();
     UserHandler.instance
         .getUser('L8X3zaClVBgLAaQaCSwTcTQE6vz1')
         .then((user) => {
@@ -86,7 +102,15 @@ class AccountInfoState extends State<AccountInfo> {
             _aboutMeUpdate,
             RoundedButton(
               text: 'Done',
-              press: () {},
+              press: () async {
+                await UserHandler.instance.updateUserInfo(
+                    'L8X3zaClVBgLAaQaCSwTcTQE6vz1',
+                    profilePicture,
+                    coverPhoto,
+                    nickname,
+                    aboutMe);
+                Navigator.pop(context);
+              },
             )
           ],
         ),

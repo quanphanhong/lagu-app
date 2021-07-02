@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class SearchBar extends StatelessWidget {
   final ValueChanged<String> onChanged;
+  final TextEditingController controller;
 
-  SearchBar({this.onChanged});
+  SearchBar({this.controller, this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +18,7 @@ class SearchBar extends StatelessWidget {
             hintText: 'Search for hobby',
             hintStyle: TextStyle(color: Colors.grey),
             fillColor: Colors.white),
+        controller: controller,
       ),
     );
   }

@@ -11,6 +11,7 @@ class HobbyUpdate extends StatefulWidget {
 
 class HobbyUpdateState extends State<HobbyUpdate> {
   ScrollController _controller = new ScrollController();
+  TextEditingController _searchBarController = new TextEditingController();
 
   String searchQuery = '';
 
@@ -23,6 +24,7 @@ class HobbyUpdateState extends State<HobbyUpdate> {
       body: Column(
         children: <Widget>[
           SearchBar(
+            controller: _searchBarController,
             onChanged: (value) {
               setState(() => searchQuery = value);
             },
@@ -54,7 +56,37 @@ class HobbyUpdateState extends State<HobbyUpdate> {
                     },
                   ),
                 )
-              : Container(),
+              : Flexible(
+                  child: StreamBuilder(
+                    stream:
+                        UserHandler.instance.allHobbyStream(query: searchQuery),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return Scaffold();
+                      } else {
+                        return ListView.builder(
+                          padding: EdgeInsets.all(10.0),
+                          itemBuilder: (context, index) {
+                            final item = snapshot.data.docs[index];
+                            return InkWell(
+                              child: HobbyBar(
+                                snapshot: item,
+                              ),
+                              onTap: () async {
+                                await UserHandler.instance
+                                    .addHobby(hobbyId: item.id);
+                                _searchBarController.clear();
+                                setState(() => searchQuery = '');
+                              },
+                            );
+                          },
+                          itemCount: snapshot.data.docs.length,
+                          controller: _controller,
+                        );
+                      }
+                    },
+                  ),
+                ),
         ],
       ),
     );

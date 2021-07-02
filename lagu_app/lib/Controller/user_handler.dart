@@ -159,6 +159,14 @@ class UserHandler {
         .snapshots();
   }
 
+  Stream<QuerySnapshot> allHobbyStream({String query = ''}) async* {
+    yield* FirebaseFirestore.instance
+        .collection('hobbies')
+        .where('name', isGreaterThanOrEqualTo: query.toUpperCase())
+        .where('name', isLessThan: query.toUpperCase() + 'z')
+        .snapshots();
+  }
+
   deleteHobby(String hobbyId) async {
     AuthService auth = new AuthService();
     String currentUID = auth.getCurrentUID();
@@ -171,5 +179,18 @@ class UserHandler {
               snapshot.docs
                   .forEach((DocumentSnapshot doc) => doc.reference.delete())
             });
+  }
+
+  addHobby({String hobbyId, String additionalInfo = ''}) async {
+    AuthService auth = new AuthService();
+    String currentUID = auth.getCurrentUID();
+
+    var addingInfo = {
+      "hobbyId": hobbyId,
+      "userId": currentUID,
+      "additionalInfo": additionalInfo,
+    };
+
+    return FirebaseFirestore.instance.collection('user_hobby').add(addingInfo);
   }
 }

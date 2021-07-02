@@ -1,6 +1,4 @@
-import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:lagu_app/Controller/auth_service.dart';
 import 'package:lagu_app/Controller/user_handler.dart';
 import 'package:lagu_app/Models/user.dart';
 import 'package:lagu_app/Screens/UserDetail/components/language_list.dart';
@@ -9,16 +7,21 @@ import 'package:lagu_app/Screens/UserDetail/components/hobby_list.dart';
 import 'package:lagu_app/Screens/UserDetail/components/horizontal_or_line.dart';
 
 class Body extends StatefulWidget {
+  final String userId;
+
+  Body({@required this.userId});
+
   @override
-  State<StatefulWidget> createState() => BodyState();
+  State<StatefulWidget> createState() => BodyState(userId: userId);
 }
 
 class BodyState extends State<Body> {
   User user = new User();
+  final String userId;
 
-  BodyState() {
+  BodyState({@required this.userId}) {
     UserHandler.instance
-        .getUser(new AuthService().getCurrentUID())
+        .getUser(userId)
         .then((userInfo) => setState(() => user = userInfo));
   }
 

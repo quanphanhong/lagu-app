@@ -1,5 +1,6 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:lagu_app/Controller/auth_service.dart';
 import 'package:lagu_app/Screens/Explore/explore.dart';
 import 'package:lagu_app/Screens/FriendList/friend_list.dart';
 import 'package:lagu_app/Screens/MessageList/message_list.dart';
@@ -25,7 +26,9 @@ class _BodyState extends State<Body> {
   List<Widget> listWidges = [
     Explore(),
     FriendList(),
-    UserDetailScreen(),
+    UserDetailScreen(
+      userId: new AuthService().getCurrentUID(),
+    ),
     MessageList(),
     Settings()
   ];

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lagu_app/Controller/user_handler.dart';
+import 'package:lagu_app/Screens/Messaging/messaging.dart';
 import 'package:lagu_app/Screens/UserDetail/user-detail.dart';
 import 'package:lagu_app/const.dart';
 
@@ -103,7 +104,13 @@ class FriendItemList extends StatelessWidget {
                       backgroundColor:
                           MaterialStateProperty.all<Color>(Colors.blueAccent),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  Messaging(peerId: snapshot.id)));
+                    },
                   ),
                 ),
               )

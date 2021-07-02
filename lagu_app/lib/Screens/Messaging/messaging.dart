@@ -108,36 +108,16 @@ class MessagingState extends State<Messaging> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'OK',
-      home: Scaffold(
-          appBar: buildAppBar(context),
-          body: SafeArea(
-            child: Center(
-                child: Column(
-              children: [
-                buildChatList(context),
-                buildInput(context),
-              ],
-            )),
-          )),
-    );
-  }
-
-  Widget buildAppBar(BuildContext context) {
-    return AppBar(
-      title: Row(children: <Widget>[
-        IconButton(
-          onPressed: () => Navigator.pop(context, false),
-          icon: Icon(
-            Icons.arrow_back_rounded,
-            color: Colors.white,
-          ),
-          iconSize: 40,
-        ),
-        Center(child: Text(_nickname))
-      ]),
-      backgroundColor: themeColor,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(_nickname),
+      ),
+      body: Column(
+        children: [
+          buildChatList(context),
+          buildInput(context),
+        ],
+      ),
     );
   }
 
@@ -283,6 +263,10 @@ class MessagingState extends State<Messaging> {
           .collection('messages')
           .doc(DateTime.now().millisecondsSinceEpoch.toString());
 
+      var relationshipReference = FirebaseFirestore.instance
+          .collection('relationships')
+          .doc(groupChatId);
+
       print('id = $uid, peerId = $peerId');
 
       FirebaseFirestore.instance.runTransaction((transaction) async {
@@ -296,7 +280,15 @@ class MessagingState extends State<Messaging> {
             'type': type
           },
         );
+
+        transaction.set(relationshipReference, {
+          'lastMessageSender': uid,
+          'lastMessage': content,
+          'lastMessageType': type,
+          'lastTimestamp': DateTime.now().millisecondsSinceEpoch.toString()
+        });
       });
+
       _scrollController.animateTo(0.0,
           duration: Duration(milliseconds: 300), curve: Curves.easeOut);
     } else {

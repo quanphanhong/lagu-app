@@ -116,7 +116,6 @@ class UserHandler {
   }
 
   Stream<QuerySnapshot> friendStream({String query = ''}) async* {
-    // Get ID: FieldPath.documentId
     AuthService auth = new AuthService();
     List<String> friendIDs = new List.empty(growable: true);
     String currentUID = auth.getCurrentUID();

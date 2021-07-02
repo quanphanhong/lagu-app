@@ -9,8 +9,6 @@ import 'package:lagu_app/Models/language.dart';
 import 'package:lagu_app/Models/relationship.dart';
 import 'package:lagu_app/Models/user.dart';
 
-import 'auth_provider.dart';
-
 class UserHandler {
   static UserHandler instance = new UserHandler();
 
@@ -140,5 +138,38 @@ class UserHandler {
         .collection('users')
         .where(FieldPath.documentId, whereIn: friendIDs)
         .snapshots();
+  }
+
+  Stream<QuerySnapshot> hobbyStream() async* {
+    AuthService auth = new AuthService();
+    List<String> hobbyIDs = new List.empty(growable: true);
+    String currentUID = auth.getCurrentUID();
+    await FirebaseFirestore.instance
+        .collection('user_hobby')
+        .where('userId', isEqualTo: currentUID)
+        .get()
+        .then((collection) => {
+              collection.docs.forEach((doc) {
+                hobbyIDs.add(doc['hobbyId']);
+              })
+            });
+    yield* FirebaseFirestore.instance
+        .collection('hobbies')
+        .where(FieldPath.documentId, whereIn: hobbyIDs)
+        .snapshots();
+  }
+
+  deleteHobby(String hobbyId) async {
+    AuthService auth = new AuthService();
+    String currentUID = auth.getCurrentUID();
+    await FirebaseFirestore.instance
+        .collection('user_hobby')
+        .where('userId', isEqualTo: currentUID)
+        .where('hobbyId', isEqualTo: hobbyId)
+        .get()
+        .then((QuerySnapshot snapshot) => {
+              snapshot.docs
+                  .forEach((DocumentSnapshot doc) => doc.reference.delete())
+            });
   }
 }

@@ -275,17 +275,17 @@ class MessagingState extends State<Messaging> {
           {
             'sender': uid,
             'receiver': peerId,
-            'sentTime': DateTime.now().millisecondsSinceEpoch.toString(),
+            'sentTime': DateTime.now().millisecondsSinceEpoch,
             'content': content,
             'type': type
           },
         );
 
-        transaction.set(relationshipReference, {
+        transaction.update(relationshipReference, {
           'lastMessageSender': uid,
           'lastMessage': content,
           'lastMessageType': type,
-          'lastTimestamp': DateTime.now().millisecondsSinceEpoch.toString()
+          'lastTimestamp': DateTime.now().millisecondsSinceEpoch
         });
       });
 

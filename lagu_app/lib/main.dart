@@ -24,10 +24,6 @@ class MyApp extends StatefulWidget {
 class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: HobbyUpdate(),
-    );
-    /*
     return Provider(
       auth: AuthService(),
       child: MaterialApp(
@@ -38,7 +34,7 @@ class MyAppState extends State<MyApp> {
         ),
         home: HomeController(),
       ),
-    );*/
+    );
   }
 }
 

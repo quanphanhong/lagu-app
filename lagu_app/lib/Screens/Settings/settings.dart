@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lagu_app/Controller/auth_service.dart';
 import 'package:lagu_app/Screens/AccountInfo/account_info.dart';
+import 'package:lagu_app/Screens/HobbyUpdate/hobby_update.dart';
 import 'package:lagu_app/Screens/Settings/components/settings_button.dart';
 import 'package:lagu_app/Screens/UserDetail/components/horizontal_or_line.dart';
 
@@ -28,7 +29,10 @@ class SettingsState extends State<Settings> {
           ),
           SettingsButton(
             title: 'Hobbies',
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => HobbyUpdate()));
+            },
           ),
           SettingsButton(
             title: 'Languages',

@@ -50,9 +50,11 @@ class BodyState extends State<Body> {
                     height: 20,
                   ),
                   HorizontalOrLine(height: 10.0, label: "Hobbies"),
-                  HobbyList(),
+                  HobbyList(userId: userId),
                   HorizontalOrLine(height: 10.0, label: "Languages"),
-                  LanguageList(),
+                  LanguageList(
+                    userId: userId,
+                  ),
                   SizedBox(
                     height: 135,
                   ),

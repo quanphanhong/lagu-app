@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:lagu_app/Controller/auth_service.dart';
 import 'package:lagu_app/Controller/user_handler.dart';
 import 'package:lagu_app/Models/hobby.dart';
 import 'package:lagu_app/Screens/UserDetail/components/hobby_card.dart';
 import 'package:flutter/cupertino.dart';
 
 class HobbyList extends StatefulWidget {
+  final String userId;
+  HobbyList({@required this.userId});
+
   @override
-  State<StatefulWidget> createState() => HobbyListState();
+  State<StatefulWidget> createState() => HobbyListState(userId: userId);
 }
 
 class HobbyListState extends State<HobbyList> {
   List<Hobby> hobbies = new List<Hobby>.empty(growable: true);
+  final String userId;
 
-  HobbyListState() {
+  HobbyListState({this.userId}) {
     UserHandler.instance
-        .getHobbyList(new AuthService().getCurrentUID())
+        .getHobbyList(userId)
         .then((hobbyList) => setState(() => hobbies = hobbyList));
   }
 

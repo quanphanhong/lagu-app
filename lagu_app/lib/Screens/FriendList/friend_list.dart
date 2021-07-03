@@ -14,37 +14,11 @@ class FriendListState extends State<FriendList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          children: <Widget>[
-            Flexible(
-              child: TextField(
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 25,
-                ),
-                onChanged: (value) {
-                  setState(() => searchQuery = value);
-                },
-                decoration: InputDecoration.collapsed(
-                  hintText: 'Search for friends...',
-                  hintStyle: TextStyle(color: Colors.white70),
-                ),
-              ),
-            ),
-            Container(
-              child: IconButton(
-                icon: Icon(Icons.search, color: Colors.white),
-                iconSize: 40,
-                onPressed: () {},
-              ),
-            )
-          ],
-        ),
+        title: Text('Friend List'),
+        centerTitle: true,
       ),
       body: Stack(
-        children: <Widget>[
-          FriendItemList(),
-        ],
+        children: <Widget>[FriendItemList()],
       ),
     );
   }

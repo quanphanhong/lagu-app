@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:lagu_app/Controller/user_handler.dart';
 import 'package:lagu_app/components/friend_general_info_column.dart';
 import 'package:lagu_app/components/friend_profile_picture.dart';
 
@@ -48,7 +49,7 @@ class FriendRequestItemState extends State<FriendRequestItem> {
         ? TextButton(
             onPressed: () {
               setState(() => isAccepted = true);
-              // TODO update state
+              UserHandler.instance.acceptFriendRequest(peerId: snapshot.id);
             },
             child: Text('Accept'))
         : Text(

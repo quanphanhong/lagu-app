@@ -32,18 +32,18 @@ class LanguageListState extends State<LanguageList> {
         maxHeight: 250.0,
       ),
       child: Row(
-        children: <Widget>[Expanded(child: BuildLanguageList())],
+        children: <Widget>[Expanded(child: buildLanguageList())],
       ),
     ));
   }
 
-  Widget BuildLanguageList() {
+  Widget buildLanguageList() {
     return ListView.builder(
         padding: const EdgeInsets.all(8),
         itemCount: languages.length,
         itemBuilder: (BuildContext context, int index) =>
-            BuildItem(languages[index]));
+            buildItem(languages[index]));
   }
 
-  Widget BuildItem(item) => LanguageCard(item: item, onClicked: () => {});
+  Widget buildItem(item) => LanguageCard(item: item, onClicked: () => {});
 }

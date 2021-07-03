@@ -5,14 +5,18 @@ import 'package:lagu_app/Models/user.dart';
 Widget buildCoverImage(String urlCover) {
   return Container(
     decoration: BoxDecoration(
-      image: DecorationImage(image: NetworkImage(urlCover), fit: BoxFit.cover),
+      image: DecorationImage(
+          image: urlCover != null
+              ? NetworkImage(urlCover)
+              : AssetImage('assets/images/default-cover-photo.jpg'),
+          fit: BoxFit.cover),
     ),
   );
 }
 
 Widget buildUserName(String name) {
   return Text(
-    name,
+    name != null ? name : '',
     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
   );
 }
@@ -25,7 +29,9 @@ Widget buildProfileImage(String urlImg, double border, double sizeAvt) {
       child: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-              image: NetworkImage(urlImg),
+              image: urlImg != null
+                  ? NetworkImage(urlImg)
+                  : AssetImage('assets/images/default-avatar.png'),
               fit: BoxFit.cover,
             ),
             borderRadius: BorderRadius.circular(80),
@@ -54,8 +60,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 
     return Stack(
       fit: StackFit.expand,
-      // ignore: deprecated_member_use
-      overflow: Overflow.visible,
+      clipBehavior: Clip.none,
       children: [
         buildBackground(shrinkOffset),
         buildAppBar(shrinkOffset),

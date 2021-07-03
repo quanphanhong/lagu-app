@@ -31,20 +31,20 @@ class HobbyListState extends State<HobbyList> {
           maxHeight: 200.0,
         ),
         child: Row(
-          children: <Widget>[Expanded(child: BuildHobbyList())],
+          children: <Widget>[Expanded(child: buildHobbyList())],
         ),
       ),
     );
   }
 
-  Widget BuildHobbyList() {
+  Widget buildHobbyList() {
     return ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.all(8),
         itemCount: hobbies.length,
         itemBuilder: (BuildContext context, int index) =>
-            BuildItem(hobbies[index]));
+            buildItem(hobbies[index]));
   }
 
-  Widget BuildItem(item) => HobbyCard(item: item, onClicked: () => {});
+  Widget buildItem(item) => HobbyCard(item: item, onClicked: () => {});
 }

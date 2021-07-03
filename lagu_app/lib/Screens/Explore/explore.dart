@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lagu_app/Controller/user_handler.dart';
 import 'package:lagu_app/Models/user.dart';
 import 'package:lagu_app/Screens/Explore/components/user_card.dart';
+import 'package:lagu_app/components/loading_screen.dart';
 
 class Explore extends StatefulWidget {
   @override
@@ -47,7 +48,7 @@ class ExploreState extends State<Explore> {
                   },
                 ));
           } else
-            return Container();
+            return LoadingScreen();
         },
       ),
     );

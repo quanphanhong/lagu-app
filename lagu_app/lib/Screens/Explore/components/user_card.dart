@@ -17,7 +17,6 @@ class UserCard extends StatefulWidget {
 
 class UserCardState extends State<UserCard> {
   final User user;
-
   UserCardState({@required this.user});
 
   @override

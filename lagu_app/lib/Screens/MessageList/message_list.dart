@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lagu_app/Controller/auth_service.dart';
+import 'package:lagu_app/Models/message.dart';
 import 'package:lagu_app/Screens/Messaging/messaging.dart';
 
 import 'package:lagu_app/const.dart';
@@ -98,6 +99,19 @@ class MessageListState extends State<MessageList> {
 
   void onItemMenuPress(Choice choice) {}
 
+  String getDisplayContent(int messageType, String messageContent) {
+    switch (messageType) {
+      case Message.TYPE_TEXT:
+        return messageContent;
+      case Message.TYPE_IMAGE:
+        return '[Image]';
+      case Message.TYPE_GIF:
+        return '[GIF]';
+      default:
+        return 'Sticker';
+    }
+  }
+
   Widget buildItem(BuildContext context, DocumentSnapshot relationshipDocument,
       DocumentSnapshot userDocument) {
     Map<String, Object> relationshipData = relationshipDocument.data();
@@ -147,7 +161,8 @@ class MessageListState extends State<MessageList> {
                     ),
                     Container(
                       child: Text(
-                        relationshipData['lastMessage'],
+                        getDisplayContent(relationshipData['lastMessageType'],
+                            relationshipData['lastMessage']),
                         style: TextStyle(color: primaryColor),
                       ),
                       alignment: Alignment.centerLeft,

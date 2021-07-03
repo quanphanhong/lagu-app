@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lagu_app/Controller/user_handler.dart';
 import 'package:lagu_app/Screens/HobbyUpdate/components/hobby_bar.dart';
+import 'package:lagu_app/components/loading_screen.dart';
 import 'package:lagu_app/components/search_bar.dart';
 
 class HobbyUpdate extends StatefulWidget {
@@ -42,7 +43,7 @@ class HobbyUpdateState extends State<HobbyUpdate> {
         stream: UserHandler.instance.hobbyStream(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return Scaffold();
+            return LoadingScreen();
           } else {
             return ListView.builder(
               padding: EdgeInsets.all(10.0),

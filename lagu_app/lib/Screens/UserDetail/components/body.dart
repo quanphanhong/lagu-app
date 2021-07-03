@@ -6,9 +6,7 @@ import 'package:lagu_app/Screens/UserDetail/components/language_list.dart';
 import 'package:lagu_app/Screens/UserDetail/components/user-flexible-appbar.dart';
 import 'package:lagu_app/Screens/UserDetail/components/hobby_list.dart';
 import 'package:lagu_app/components/horizontal_or_line.dart';
-import 'package:lagu_app/const.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:lagu_app/components/loading_screen.dart';
 
 class Body extends StatefulWidget {
   final String userId;
@@ -33,11 +31,7 @@ class BodyState extends State<Body> {
   Widget build(BuildContext context) {
     Size screensize = MediaQuery.of(context).size;
     return user == null
-        ? Center(
-            child: SpinKitCubeGrid(
-              color: themeColor,
-            ),
-          )
+        ? LoadingScreen()
         : Scaffold(
             body: CustomScrollView(
               slivers: <Widget>[

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lagu_app/Controller/auth_service.dart';
 import 'package:lagu_app/Controller/user_handler.dart';
 import 'package:lagu_app/components/cover_photo_update.dart';
+import 'package:lagu_app/components/loading_screen.dart';
 import 'package:lagu_app/components/profile_picture_update.dart';
 import 'package:lagu_app/components/rounded_button.dart';
 import 'package:lagu_app/components/rounded_input_field.dart';
-import 'package:lagu_app/const.dart';
 
 class AccountInfo extends StatefulWidget {
   @override
@@ -96,11 +95,7 @@ class AccountInfoState extends State<AccountInfo> {
         title: Text('Update Info'),
       ),
       body: isLoading
-          ? Center(
-              child: SpinKitCubeGrid(
-                color: themeColor,
-              ),
-            )
+          ? LoadingScreen()
           : SingleChildScrollView(
               child: Column(
                 children: <Widget>[

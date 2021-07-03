@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lagu_app/Controller/auth_provider.dart';
 import 'package:lagu_app/Controller/auth_service.dart';
-import 'package:lagu_app/Screens/AccountInfo/account_info.dart';
-import 'package:lagu_app/Screens/FriendList/friend_list.dart';
 import 'package:lagu_app/Screens/InfoUpdate/info_update.dart';
 import 'package:lagu_app/Screens/Login/login_screen.dart';
 import 'package:lagu_app/Screens/Menu/menu-screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:lagu_app/const.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,10 +24,7 @@ class MyApp extends StatefulWidget {
 class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: AccountInfo(),
-    );
-    /*return Provider(
+    return Provider(
       auth: AuthService(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -37,7 +34,7 @@ class MyAppState extends State<MyApp> {
         ),
         home: HomeController(),
       ),
-    );*/
+    );
   }
 }
 
@@ -65,6 +62,13 @@ class HomeState extends State<HomeController> {
                     .doc(auth.getCurrentUID())
                     .snapshots(),
                 builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: SpinKitCubeGrid(
+                        color: themeColor,
+                      ),
+                    );
+                  }
                   return (snapshot.data.exists) ? MenuScreen() : InfoUpdate();
                 });
           } else

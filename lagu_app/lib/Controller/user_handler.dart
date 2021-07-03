@@ -192,4 +192,8 @@ class UserHandler {
 
     return FirebaseFirestore.instance.collection('user_hobby').add(addingInfo);
   }
+
+  Stream<QuerySnapshot> userStream({String lastId = ''}) async* {
+    yield* FirebaseFirestore.instance.collection('users').snapshots();
+  }
 }

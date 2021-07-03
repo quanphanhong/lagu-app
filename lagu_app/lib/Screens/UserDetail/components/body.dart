@@ -4,7 +4,7 @@ import 'package:lagu_app/Models/user.dart';
 import 'package:lagu_app/Screens/UserDetail/components/language_list.dart';
 import 'package:lagu_app/Screens/UserDetail/components/user-flexible-appbar.dart';
 import 'package:lagu_app/Screens/UserDetail/components/hobby_list.dart';
-import 'package:lagu_app/Screens/UserDetail/components/horizontal_or_line.dart';
+import 'package:lagu_app/components/horizontal_or_line.dart';
 
 class Body extends StatefulWidget {
   final String userId;

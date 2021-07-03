@@ -280,7 +280,7 @@ class UserHandler {
     );
   }
 
-  Future acceptFriendRequest({String peerId = ''}) async {
+  Future setRelationshipStatus({String peerId = '', int status}) async {
     AuthService auth = new AuthService();
     String currentUID = auth.getCurrentUID();
 
@@ -299,9 +299,37 @@ class UserHandler {
       (transaction) async {
         transaction.update(relationshipReference, {
           'actionUser': currentUID,
-          'status': Relationship.STATE_ACCEPTED,
+          'status': status,
         });
       },
     );
+  }
+
+  Future<Relationship> getRelationship({String peerId = ''}) async {
+    AuthService auth = new AuthService();
+    String currentUID = auth.getCurrentUID();
+
+    String groupChatId;
+    if (currentUID.hashCode <= peerId.hashCode) {
+      groupChatId = '$currentUID-$peerId';
+    } else {
+      groupChatId = '$peerId-$currentUID';
+    }
+
+    Relationship result;
+    await FirebaseFirestore.instance
+        .collection('relationships')
+        .doc('$groupChatId')
+        .get()
+        .then((DocumentSnapshot snapshot) => {
+              result = new Relationship(
+                  relationshipId: snapshot.id,
+                  user_1: snapshot.get('user_1'),
+                  user_2: snapshot.get('user_2'),
+                  status: snapshot.get('status'),
+                  actionUser: snapshot.get('actionUser'))
+            });
+
+    return result;
   }
 }

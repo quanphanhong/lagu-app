@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lagu_app/Models/message.dart';
-import 'package:lagu_app/Models/user.dart';
-import 'package:lagu_app/Models/user.dart';
-import 'user.dart';
 
 class Relationship {
   static const STATE_PENDING = 0;
@@ -23,5 +20,5 @@ class Relationship {
       @required this.user_2,
       @required this.status,
       @required this.actionUser,
-      @required this.messages});
+      this.messages});
 }

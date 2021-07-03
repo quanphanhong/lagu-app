@@ -139,7 +139,7 @@ class UserHandler {
         .snapshots();
   }
 
-  Stream<QuerySnapshot> friendRequestStream({String query = ''}) async* {
+  Stream<QuerySnapshot> friendRequestStream() async* {
     AuthService auth = new AuthService();
     List<String> friendIDs = new List.empty(growable: true);
     String currentUID = auth.getCurrentUID();
@@ -163,6 +163,37 @@ class UserHandler {
         .collection('users')
         .where(FieldPath.documentId, whereIn: friendIDs)
         .snapshots();
+  }
+
+  Future<QuerySnapshot> getAllFriendRequests() async {
+    AuthService auth = new AuthService();
+    List<String> friendIDs = new List.empty(growable: true);
+    String currentUID = auth.getCurrentUID();
+    await FirebaseFirestore.instance
+        .collection('relationships')
+        .where(FieldPath.documentId, isGreaterThanOrEqualTo: currentUID)
+        .where(FieldPath.documentId, isLessThan: currentUID + 'z')
+        .where('status', isEqualTo: Relationship.STATE_PENDING)
+        .get()
+        .then((collection) => {
+              collection.docs.forEach((doc) {
+                if (doc['actionUser'] != currentUID) {
+                  if (doc['user_1'] == currentUID)
+                    friendIDs.add(doc['user_2']);
+                  else
+                    friendIDs.add(doc['user_1']);
+                }
+              })
+            });
+
+    QuerySnapshot result;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .where(FieldPath.documentId, whereIn: friendIDs)
+        .get()
+        .then((QuerySnapshot snapshot) => result = snapshot);
+
+    return result;
   }
 
   Stream<QuerySnapshot> hobbyStream() async* {

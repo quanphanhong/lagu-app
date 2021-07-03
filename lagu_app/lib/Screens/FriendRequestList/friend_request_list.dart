@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lagu_app/Controller/user_handler.dart';
 import 'package:lagu_app/Screens/FriendRequestList/components/friend_request_item.dart';
+import 'package:lagu_app/const.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class FriendRequestList extends StatefulWidget {
   @override
@@ -9,6 +11,7 @@ class FriendRequestList extends StatefulWidget {
 
 class FriendRequestListState extends State<FriendRequestList> {
   ScrollController _controller = new ScrollController();
+  RefreshController _refreshController = new RefreshController();
 
   @override
   Widget build(BuildContext context) {
@@ -17,13 +20,25 @@ class FriendRequestListState extends State<FriendRequestList> {
         title: Text('Friend Requests'),
         centerTitle: true,
       ),
-      body: buildRequestList(context),
+      body: SmartRefresher(
+        enablePullDown: true,
+        enablePullUp: false,
+        header: WaterDropMaterialHeader(
+          color: themeColor,
+        ),
+        controller: _refreshController,
+        onRefresh: () async {
+          setState(() {});
+          _refreshController.refreshCompleted();
+        },
+        child: buildRequestList(context),
+      ),
     );
   }
 
   Widget buildRequestList(BuildContext context) {
-    return StreamBuilder(
-      stream: UserHandler.instance.friendRequestStream(),
+    return FutureBuilder(
+      future: UserHandler.instance.getAllFriendRequests(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Center(

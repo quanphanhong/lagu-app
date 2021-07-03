@@ -76,7 +76,7 @@ class MessagingState extends State<Messaging> {
     } else {
       groupChatId = '$peerId-$uid';
     }
-    print('Group Chat Id: $groupChatId');
+    //print('Group Chat Id: $groupChatId');
 
     UserHandler.instance.getUser(peerId).then((user) => {
           setState(() {

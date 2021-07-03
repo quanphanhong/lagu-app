@@ -193,7 +193,59 @@ class UserHandler {
     return FirebaseFirestore.instance.collection('user_hobby').add(addingInfo);
   }
 
-  Stream<QuerySnapshot> userStream({String lastId = ''}) async* {
-    yield* FirebaseFirestore.instance.collection('users').snapshots();
+  Stream<QuerySnapshot> exploreStream({String lastId = ' '}) async* {
+    AuthService auth = new AuthService();
+    List<String> relativeIDs = new List.empty(growable: true);
+    String currentUID = auth.getCurrentUID();
+
+    await FirebaseFirestore.instance
+        .collection('relationships')
+        .where(FieldPath.documentId, isGreaterThanOrEqualTo: currentUID)
+        .where(FieldPath.documentId, isLessThan: currentUID + 'z')
+        .where(FieldPath.documentId, isGreaterThan: lastId)
+        .get()
+        .then((collection) => {
+              collection.docs.forEach((doc) {
+                if (doc['user_1'] == currentUID) {
+                  if (doc['user_2'] != currentUID)
+                    relativeIDs.add(doc['user_2']);
+                } else {
+                  if (doc['user_1'] != currentUID)
+                    relativeIDs.add(doc['user_1']);
+                }
+              })
+            });
+
+    yield* FirebaseFirestore.instance
+        .collection('users')
+        .where(FieldPath.documentId, whereNotIn: relativeIDs)
+        .snapshots();
+  }
+
+  Future addFriend({String peerId = ''}) async {
+    AuthService auth = new AuthService();
+    String currentUID = auth.getCurrentUID();
+
+    String groupChatId;
+    if (currentUID.hashCode <= peerId.hashCode) {
+      groupChatId = '$currentUID-$peerId';
+    } else {
+      groupChatId = '$peerId-$currentUID';
+    }
+
+    var relationshipReference = FirebaseFirestore.instance
+        .collection('relationships')
+        .doc('$groupChatId');
+
+    await FirebaseFirestore.instance.runTransaction(
+      (transaction) async {
+        transaction.set(relationshipReference, {
+          'user_1': currentUID,
+          'user_2': peerId,
+          'actionUser': currentUID,
+          'status': Relationship.STATE_PENDING
+        });
+      },
+    );
   }
 }

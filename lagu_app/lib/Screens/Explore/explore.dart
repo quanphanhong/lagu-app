@@ -1,7 +1,4 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:lagu_app/Controller/auth_service.dart';
 import 'package:lagu_app/Controller/user_handler.dart';
 import 'package:lagu_app/Models/user.dart';
 import 'package:lagu_app/Screens/Explore/components/user_card.dart';
@@ -12,19 +9,24 @@ class Explore extends StatefulWidget {
 }
 
 class ExploreState extends State<Explore> {
-  String lastUser = 'A6bsBoZeCcR0bv6EeWVhE4B7tgw2';
+  String lastUser = ' ';
+  setLastUser(String userId) {
+    if (!mounted) return;
+    setState(() => lastUser = userId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: StreamBuilder(
-        stream: UserHandler.instance.userStream(lastId: lastUser),
+        stream: UserHandler.instance.exploreStream(lastId: lastUser),
         builder: (context, snapshot) {
-          var userCollection = snapshot.data.docs;
           if (snapshot.hasData) {
+            var userCollection = snapshot.data.docs;
             return Stack(
                 clipBehavior: Clip.none,
                 children: List.generate(
-                  snapshot.data.docs.length,
+                  userCollection.length,
                   (index) {
                     User user = new User(
                       userId: userCollection[index].id,
@@ -33,8 +35,14 @@ class ExploreState extends State<Explore> {
                       coverPhoto: userCollection[index]['coverPhoto'],
                       aboutMe: userCollection[index]['aboutMe'],
                     );
-                    return UserCard(
-                      user: user,
+                    return Dismissible(
+                      key: UniqueKey(),
+                      onDismissed: (direction) {
+                        if (direction == DismissDirection.startToEnd) {
+                          UserHandler.instance.addFriend(peerId: user.userId);
+                        }
+                      },
+                      child: UserCard(user: user),
                     );
                   },
                 ));

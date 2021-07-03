@@ -228,6 +228,7 @@ class UserHandler {
     AuthService auth = new AuthService();
     List<String> relativeIDs = new List.empty(growable: true);
     String currentUID = auth.getCurrentUID();
+    relativeIDs.add(currentUID);
 
     await FirebaseFirestore.instance
         .collection('relationships')

@@ -1,14 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class FriendGeneralInfoColumn extends StatelessWidget {
-  final DocumentSnapshot snapshot;
-  FriendGeneralInfoColumn({@required this.snapshot});
+  final String nickname;
+  final String aboutMe;
+  FriendGeneralInfoColumn({@required this.nickname, @required this.aboutMe});
 
   @override
   Widget build(BuildContext context) {
-    Map<String, Object> data = snapshot.data();
-
     return Container(
       margin: EdgeInsets.only(left: 20),
       child: Column(
@@ -16,7 +14,7 @@ class FriendGeneralInfoColumn extends StatelessWidget {
         children: <Widget>[
           Container(
             child: Text(
-              data['nickname'],
+              nickname != null ? nickname : '',
               textAlign: TextAlign.left,
               style: TextStyle(
                   color: Colors.black,
@@ -27,7 +25,7 @@ class FriendGeneralInfoColumn extends StatelessWidget {
           ),
           Container(
             child: Text(
-              data['aboutMe'],
+              aboutMe != null ? aboutMe : '',
               textAlign: TextAlign.left,
               style: TextStyle(
                 color: Colors.blueGrey,

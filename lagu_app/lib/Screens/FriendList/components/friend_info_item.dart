@@ -22,8 +22,13 @@ class FriendInfoItem extends StatelessWidget {
         margin: EdgeInsets.symmetric(vertical: 1),
         child: Row(
           children: <Widget>[
-            FriendProfilePicture(snapshot: snapshot),
-            FriendGeneralInfoColumn(snapshot: snapshot),
+            FriendProfilePicture(
+              profilePicture: snapshot.get('profilePicture'),
+            ),
+            FriendGeneralInfoColumn(
+              nickname: snapshot.get('nickname'),
+              aboutMe: snapshot.get('aboutMe'),
+            ),
             MessageButton(
               parentBuildContext: parentBuildContext,
               userId: snapshot.id,

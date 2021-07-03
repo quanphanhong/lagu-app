@@ -1,9 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lagu_app/Controller/user_handler.dart';
-import 'package:lagu_app/Screens/Messaging/messaging.dart';
-import 'package:lagu_app/Screens/UserDetail/user-detail.dart';
+import 'package:lagu_app/Screens/FriendList/components/friend_info_item.dart';
 import 'package:lagu_app/const.dart';
 
 class FriendItemList extends StatelessWidget {
@@ -23,104 +21,13 @@ class FriendItemList extends StatelessWidget {
         } else {
           return ListView.builder(
             padding: EdgeInsets.all(10.0),
-            itemBuilder: (context, index) =>
-                buildItem(context, snapshot.data.docs[index]),
+            itemBuilder: (context, index) => FriendInfoItem(
+                snapshot: snapshot.data.docs[index],
+                parentBuildContext: context),
             itemCount: snapshot.data.docs.length,
             controller: _controller,
           );
         }
-      },
-    );
-  }
-
-  Widget buildItem(BuildContext context, DocumentSnapshot snapshot) {
-    Map<String, Object> data = snapshot.data();
-
-    return InkWell(
-      child: Container(
-        decoration: BoxDecoration(
-            color: Color.fromARGB(255, 245, 247, 255),
-            borderRadius: BorderRadius.all(Radius.circular(20))),
-        padding: EdgeInsets.all(20),
-        margin: EdgeInsets.symmetric(vertical: 1),
-        child: Row(
-          children: <Widget>[
-            Container(
-              decoration: new BoxDecoration(
-                  borderRadius: BorderRadius.all(const Radius.circular(50.0)),
-                  border: Border.all(color: const Color(0xFF28324E)),
-                  image: new DecorationImage(
-                      fit: BoxFit.fill,
-                      image: (data['profilePicture'] != null &&
-                              data['profilePicture'] != '')
-                          ? new NetworkImage(
-                              data['profilePicture'],
-                            )
-                          : new AssetImage(
-                              'assets/images/default-avatar.png'))),
-              width: 60,
-              height: 60,
-            ),
-            Container(
-                margin: EdgeInsets.only(left: 20),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        child: Text(
-                          data['nickname'],
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        margin: EdgeInsets.only(bottom: 5),
-                      ),
-                      Container(
-                        child: Text(
-                          data['aboutMe'],
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            color: Colors.blueGrey,
-                            fontSize: 12,
-                          ),
-                        ),
-                      ),
-                    ])),
-            Expanded(
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  child: Container(
-                    padding: EdgeInsets.all(5),
-                    child: Text(
-                      'Message',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.blueAccent),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                Messaging(peerId: snapshot.id)));
-                  },
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-      onTap: () async {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => UserDetailScreen(userId: snapshot.id)));
       },
     );
   }

@@ -1,28 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:lagu_app/Controller/file_handler.dart';
 
+// ignore: must_be_immutable
 class CoverPhotoUpdate extends StatefulWidget {
   final ValueChanged<String> onChanged;
-  CoverPhotoState _coverPhotoState;
+  String coverPhoto = '';
 
-  CoverPhotoUpdate({this.onChanged});
-
-  setCoverPhoto(String url) => _coverPhotoState.setCoverPhoto(url);
+  CoverPhotoUpdate({this.onChanged, this.coverPhoto});
 
   @override
-  State<StatefulWidget> createState() {
-    _coverPhotoState = CoverPhotoState(onChanged: onChanged);
-    return _coverPhotoState;
-  }
+  State<StatefulWidget> createState() =>
+      CoverPhotoState(onChanged: onChanged, coverPhoto: coverPhoto);
 }
 
 class CoverPhotoState extends State<CoverPhotoUpdate> {
   String coverPhoto = '';
   final ValueChanged<String> onChanged;
 
-  CoverPhotoState({this.onChanged});
-
-  setCoverPhoto(String url) => setState(() => coverPhoto = url);
+  CoverPhotoState({this.onChanged, this.coverPhoto});
 
   @override
   Widget build(BuildContext context) {

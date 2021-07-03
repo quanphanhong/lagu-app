@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:lagu_app/Controller/auth_service.dart';
 import 'package:lagu_app/Controller/user_handler.dart';
 import 'package:lagu_app/components/cover_photo_update.dart';
 import 'package:lagu_app/components/profile_picture_update.dart';
 import 'package:lagu_app/components/rounded_button.dart';
 import 'package:lagu_app/components/rounded_input_field.dart';
+import 'package:lagu_app/const.dart';
 
 class AccountInfo extends StatefulWidget {
   @override
@@ -20,18 +23,9 @@ class AccountInfoState extends State<AccountInfo> {
   String coverPhoto = '';
   String nickname = '';
   String aboutMe = '';
+  bool isLoading = true;
 
-  init() {
-    _profilePictureUpdate = ProfilePictureUpdate(
-      onChanged: (value) {
-        profilePicture = value;
-      },
-    );
-    _coverPhotoUpdate = CoverPhotoUpdate(
-      onChanged: (value) {
-        coverPhoto = value;
-      },
-    );
+  initializeWidgets() {
     _nicknameUpdate = RoundedInputField(
       hintText: 'Nickname',
       onChanged: (value) {
@@ -47,25 +41,52 @@ class AccountInfoState extends State<AccountInfo> {
     );
   }
 
+  init() async {
+    initializeWidgets();
+
+    String currentUserId = new AuthService().getCurrentUID();
+    UserHandler.instance.getUser(currentUserId).then(
+          (user) => {
+            if (user == null)
+              {
+                setState(() => isLoading = false),
+              }
+            else
+              {
+                setState(() {
+                  isLoading = false;
+
+                  profilePicture = user.profilePicture;
+                  _profilePictureUpdate = ProfilePictureUpdate(
+                    profilePicture: user.profilePicture,
+                    onChanged: (value) {
+                      profilePicture = value;
+                    },
+                  );
+
+                  coverPhoto = user.coverPhoto;
+                  _coverPhotoUpdate = CoverPhotoUpdate(
+                    coverPhoto: user.coverPhoto,
+                    onChanged: (value) {
+                      coverPhoto = value;
+                    },
+                  );
+
+                  nickname = user.nickname;
+                  if (_nicknameUpdate != null)
+                    _nicknameUpdate.setText(user.nickname);
+
+                  aboutMe = user.aboutMe;
+                  if (_aboutMeUpdate != null)
+                    _aboutMeUpdate.setText(user.aboutMe);
+                })
+              }
+          },
+        );
+  }
+
   AccountInfoState() {
     init();
-    UserHandler.instance
-        .getUser('L8X3zaClVBgLAaQaCSwTcTQE6vz1')
-        .then((user) => {
-              setState(() {
-                profilePicture = user.profilePicture;
-                _profilePictureUpdate.setProfilePicture(user.profilePicture);
-
-                coverPhoto = user.coverPhoto;
-                _coverPhotoUpdate.setCoverPhoto(user.coverPhoto);
-
-                nickname = user.nickname;
-                _nicknameUpdate.setText(user.nickname);
-
-                aboutMe = user.aboutMe;
-                _aboutMeUpdate.setText(user.aboutMe);
-              })
-            });
   }
 
   @override
@@ -74,47 +95,53 @@ class AccountInfoState extends State<AccountInfo> {
       appBar: AppBar(
         title: Text('Update Info'),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: 200,
-              child: Stack(
-                fit: StackFit.expand,
-                // ignore: deprecated_member_use
-                overflow: Overflow.visible,
+      body: isLoading
+          ? Center(
+              child: SpinKitCubeGrid(
+                color: themeColor,
+              ),
+            )
+          : SingleChildScrollView(
+              child: Column(
                 children: <Widget>[
-                  Column(
-                    children: <Widget>[_coverPhotoUpdate],
+                  Container(
+                    height: 200,
+                    child: Stack(
+                      fit: StackFit.expand,
+                      // ignore: deprecated_member_use
+                      overflow: Overflow.visible,
+                      children: <Widget>[
+                        Column(
+                          children: <Widget>[_coverPhotoUpdate],
+                        ),
+                        Column(
+                          children: [
+                            SizedBox(
+                              height: 80,
+                            ),
+                            _profilePictureUpdate,
+                          ],
+                        )
+                      ],
+                    ),
                   ),
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: 80,
-                      ),
-                      _profilePictureUpdate,
-                    ],
+                  _nicknameUpdate,
+                  _aboutMeUpdate,
+                  RoundedButton(
+                    text: 'Done',
+                    press: () async {
+                      await UserHandler.instance.updateUserInfo(
+                          'L8X3zaClVBgLAaQaCSwTcTQE6vz1',
+                          profilePicture,
+                          coverPhoto,
+                          nickname,
+                          aboutMe);
+                      Navigator.pop(context);
+                    },
                   )
                 ],
               ),
             ),
-            _nicknameUpdate,
-            _aboutMeUpdate,
-            RoundedButton(
-              text: 'Done',
-              press: () async {
-                await UserHandler.instance.updateUserInfo(
-                    'L8X3zaClVBgLAaQaCSwTcTQE6vz1',
-                    profilePicture,
-                    coverPhoto,
-                    nickname,
-                    aboutMe);
-                Navigator.pop(context);
-              },
-            )
-          ],
-        ),
-      ),
     );
   }
 }

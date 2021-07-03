@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:lagu_app/Controller/auth_provider.dart';
 import 'package:lagu_app/Controller/auth_service.dart';
+import 'package:lagu_app/Screens/AccountInfo/account_info.dart';
 import 'package:lagu_app/Screens/FriendList/friend_list.dart';
 import 'package:lagu_app/Screens/InfoUpdate/info_update.dart';
 import 'package:lagu_app/Screens/Login/login_screen.dart';
@@ -24,7 +25,7 @@ class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: FriendList(),
+      home: AccountInfo(),
     );
     /*return Provider(
       auth: AuthService(),

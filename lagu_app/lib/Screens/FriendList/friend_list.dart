@@ -17,8 +17,29 @@ class FriendListState extends State<FriendList> {
         title: Text('Friend List'),
         centerTitle: true,
       ),
-      body: Stack(
-        children: <Widget>[FriendItemList()],
+      body: Column(
+        children: <Widget>[
+          Container(
+            height: 40,
+            margin: EdgeInsets.all(10),
+            child: TextButton.icon(
+              onPressed: () {},
+              label: Text('Friend Requests',
+                  style: TextStyle(color: Colors.white)),
+              icon: Icon(
+                Icons.list_outlined,
+                color: Colors.white,
+              ),
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(Colors.blueAccent),
+              ),
+            ),
+          ),
+          Expanded(
+            child: FriendItemList(),
+          )
+        ],
       ),
     );
   }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lagu_app/Controller/user_handler.dart';
+import 'package:lagu_app/Controller/hobby_handler.dart';
 import 'package:lagu_app/Models/hobby.dart';
 import 'package:lagu_app/Screens/Explore/components/mini_hobby_card.dart';
 
@@ -16,7 +16,7 @@ class MiniHobbyCardListState extends State<MiniHobbyCardList> {
   final String userId;
 
   MiniHobbyCardListState({@required this.userId}) {
-    UserHandler.instance
+    HobbyHandler.instance
         .getHobbyList(userId)
         .then((list) => setState(() => hobbyList = list));
   }

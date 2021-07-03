@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lagu_app/Controller/user_handler.dart';
+import 'package:lagu_app/Controller/hobby_handler.dart';
 import 'package:lagu_app/Screens/HobbyUpdate/components/hobby_bar.dart';
 import 'package:lagu_app/components/loading_screen.dart';
 import 'package:lagu_app/components/search_bar.dart';
@@ -40,7 +40,7 @@ class HobbyUpdateState extends State<HobbyUpdate> {
   Widget buildSelectedHobbiesWidget(BuildContext context) {
     return Flexible(
       child: StreamBuilder(
-        stream: UserHandler.instance.hobbyStream(),
+        stream: HobbyHandler.instance.hobbyStream(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return LoadingScreen();
@@ -53,7 +53,7 @@ class HobbyUpdateState extends State<HobbyUpdate> {
                   key: Key(item['name']),
                   child: HobbyBar(snapshot: item),
                   onDismissed: (direction) async {
-                    await UserHandler.instance.deleteHobby(item.id);
+                    await HobbyHandler.instance.deleteHobby(item.id);
                   },
                 );
               },
@@ -69,7 +69,7 @@ class HobbyUpdateState extends State<HobbyUpdate> {
   Widget buildSearchResultWidget() {
     return Flexible(
       child: StreamBuilder(
-        stream: UserHandler.instance.allHobbyStream(query: searchQuery),
+        stream: HobbyHandler.instance.allHobbyStream(query: searchQuery),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Scaffold();
@@ -83,7 +83,7 @@ class HobbyUpdateState extends State<HobbyUpdate> {
                     snapshot: item,
                   ),
                   onTap: () async {
-                    await UserHandler.instance.addHobby(hobbyId: item.id);
+                    await HobbyHandler.instance.addHobby(hobbyId: item.id);
                     _searchBarController.clear();
                     setState(() => searchQuery = '');
                   },

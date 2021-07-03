@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lagu_app/Controller/user_handler.dart';
+import 'package:lagu_app/Controller/hobby_handler.dart';
 import 'package:lagu_app/Models/hobby.dart';
 import 'package:lagu_app/Screens/UserDetail/components/hobby_card.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,7 +17,7 @@ class HobbyListState extends State<HobbyList> {
   final String userId;
 
   HobbyListState({this.userId}) {
-    UserHandler.instance
+    HobbyHandler.instance
         .getHobbyList(userId)
         .then((hobbyList) => setState(() => hobbies = hobbyList));
   }

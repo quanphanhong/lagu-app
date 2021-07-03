@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lagu_app/Controller/user_handler.dart';
+import 'package:lagu_app/Controller/language_handler.dart';
 import 'package:lagu_app/Models/language.dart';
 import 'package:lagu_app/Screens/UserDetail/components/language_card.dart';
 
@@ -18,7 +18,7 @@ class LanguageListState extends State<LanguageList> {
   final String userId;
 
   LanguageListState({@required this.userId}) {
-    UserHandler.instance
+    LanguageHandler.instance
         .getLanguageList(userId)
         .then((languageList) => setState(() => languages = languageList));
   }

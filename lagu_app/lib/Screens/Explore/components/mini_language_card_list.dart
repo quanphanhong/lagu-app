@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lagu_app/Controller/user_handler.dart';
+import 'package:lagu_app/Controller/language_handler.dart';
 import 'package:lagu_app/Models/language.dart';
 import 'package:lagu_app/Screens/Explore/components/mini_language_card.dart';
 
@@ -17,7 +17,7 @@ class MiniLanguageCardListState extends State<MiniLanguageCardList> {
   final String userId;
 
   MiniLanguageCardListState({@required this.userId}) {
-    UserHandler.instance
+    LanguageHandler.instance
         .getLanguageList(userId)
         .then((list) => setState(() => languageList = list));
   }

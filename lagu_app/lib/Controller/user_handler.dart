@@ -12,55 +12,11 @@ import 'package:lagu_app/Models/user.dart';
 class UserHandler {
   static UserHandler instance = new UserHandler();
 
-  Future<List<Hobby>> getHobbyList(String userId) async {
-    List<Hobby> hobbies = new List.empty(growable: true);
-
-    await FirebaseFirestore.instance
-        .collection('user_hobby')
-        .get()
-        .then((QuerySnapshot snapshot) async => {
-              for (var doc in snapshot.docs)
-                {
-                  if (doc['userId'] == userId)
-                    {
-                      await HobbyHandler.instance.getHobby(doc['hobbyId']).then(
-                          (Hobby hobby) => {
-                                hobby.additionalInfo = doc['additionalInfo'],
-                                hobbies.add(hobby)
-                              })
-                    }
-                }
-            });
-    return hobbies;
-  }
-
-  Future<List<Language>> getLanguageList(String userId) async {
-    List<Language> languages = new List.empty(growable: true);
-
-    await FirebaseFirestore.instance
-        .collection('user_language')
-        .get()
-        .then((QuerySnapshot snapshot) async => {
-              for (var doc in snapshot.docs)
-                {
-                  if (doc['userId'] == userId)
-                    {
-                      await LanguageHandler.instance
-                          .getLanguage(doc['languageId'])
-                          .then((Language language) => {
-                                language.level = doc['level'],
-                                languages.add(language)
-                              })
-                    }
-                }
-            });
-    return languages;
-  }
-
   Future<User> getUser(String id) async {
     Completer<User> completer = new Completer<User>();
-    List<Hobby> hobbies = await getHobbyList(id);
-    List<Language> languages = await getLanguageList(id);
+    List<Hobby> hobbies = await HobbyHandler.instance.getHobbyList(id);
+    List<Language> languages =
+        await LanguageHandler.instance.getLanguageList(id);
 
     FirebaseFirestore.instance
         .doc('users/$id')
@@ -170,65 +126,10 @@ class UserHandler {
     return result;
   }
 
-  Stream<QuerySnapshot> hobbyStream() async* {
-    AuthService auth = new AuthService();
-    List<String> hobbyIDs = new List.empty(growable: true);
-    String currentUID = auth.getCurrentUID();
-    await FirebaseFirestore.instance
-        .collection('user_hobby')
-        .where('userId', isEqualTo: currentUID)
-        .get()
-        .then((collection) => {
-              collection.docs.forEach((doc) {
-                hobbyIDs.add(doc['hobbyId']);
-              })
-            });
-    yield* FirebaseFirestore.instance
-        .collection('hobbies')
-        .where(FieldPath.documentId, whereIn: hobbyIDs)
-        .snapshots();
-  }
-
-  Stream<QuerySnapshot> allHobbyStream({String query = ''}) async* {
-    yield* FirebaseFirestore.instance
-        .collection('hobbies')
-        .where('name', isGreaterThanOrEqualTo: query.toUpperCase())
-        .where('name', isLessThan: query.toUpperCase() + 'z')
-        .snapshots();
-  }
-
-  deleteHobby(String hobbyId) async {
-    AuthService auth = new AuthService();
-    String currentUID = auth.getCurrentUID();
-    await FirebaseFirestore.instance
-        .collection('user_hobby')
-        .where('userId', isEqualTo: currentUID)
-        .where('hobbyId', isEqualTo: hobbyId)
-        .get()
-        .then((QuerySnapshot snapshot) => {
-              snapshot.docs
-                  .forEach((DocumentSnapshot doc) => doc.reference.delete())
-            });
-  }
-
-  addHobby({String hobbyId, String additionalInfo = ''}) async {
-    AuthService auth = new AuthService();
-    String currentUID = auth.getCurrentUID();
-
-    var addingInfo = {
-      "hobbyId": hobbyId,
-      "userId": currentUID,
-      "additionalInfo": additionalInfo,
-    };
-
-    return FirebaseFirestore.instance.collection('user_hobby').add(addingInfo);
-  }
-
   Stream<QuerySnapshot> exploreStream({String lastId = ' '}) async* {
     AuthService auth = new AuthService();
     List<String> relativeIDs = new List.empty(growable: true);
     String currentUID = auth.getCurrentUID();
-    relativeIDs.add(currentUID);
 
     await FirebaseFirestore.instance
         .collection('relationships')
@@ -251,6 +152,7 @@ class UserHandler {
     yield* FirebaseFirestore.instance
         .collection('users')
         .where(FieldPath.documentId, whereNotIn: relativeIDs)
+        .where(FieldPath.documentId, isNotEqualTo: currentUID)
         .snapshots();
   }
 

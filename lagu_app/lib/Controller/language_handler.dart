@@ -25,4 +25,27 @@ class LanguageHandler {
             });
     return completer.future;
   }
+
+  Future<List<Language>> getLanguageList(String userId) async {
+    List<Language> languages = new List.empty(growable: true);
+
+    await FirebaseFirestore.instance
+        .collection('user_language')
+        .get()
+        .then((QuerySnapshot snapshot) async => {
+              for (var doc in snapshot.docs)
+                {
+                  if (doc['userId'] == userId)
+                    {
+                      await LanguageHandler.instance
+                          .getLanguage(doc['languageId'])
+                          .then((Language language) => {
+                                language.level = doc['level'],
+                                languages.add(language)
+                              })
+                    }
+                }
+            });
+    return languages;
+  }
 }

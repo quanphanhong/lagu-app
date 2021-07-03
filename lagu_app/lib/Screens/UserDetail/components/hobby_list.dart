@@ -25,15 +25,16 @@ class HobbyListState extends State<HobbyList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: ConstrainedBox(
-      constraints: new BoxConstraints(
-        minHeight: 35.0,
-        maxHeight: 200.0,
+      child: ConstrainedBox(
+        constraints: new BoxConstraints(
+          minHeight: 35.0,
+          maxHeight: 200.0,
+        ),
+        child: Row(
+          children: <Widget>[Expanded(child: BuildHobbyList())],
+        ),
       ),
-      child: Row(
-        children: <Widget>[Expanded(child: BuildHobbyList())],
-      ),
-    ));
+    );
   }
 
   Widget BuildHobbyList() {

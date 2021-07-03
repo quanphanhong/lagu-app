@@ -3,35 +3,46 @@ import 'package:flutter/material.dart';
 class SettingsButton extends StatelessWidget {
   final void Function() onPressed;
   final String title;
-  SettingsButton({@required this.title, this.onPressed});
+  final Color backgroundColor;
+  final double leftMargin;
+  SettingsButton(
+      {@required this.title,
+      this.onPressed,
+      this.backgroundColor = Colors.blue,
+      this.leftMargin = 25});
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      child: Container(
-        child: Row(
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.all(20),
-              child: Text(
-                title,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.blueGrey,
+    return Card(
+      margin: EdgeInsets.all(0),
+      shadowColor: Colors.transparent,
+      borderOnForeground: false,
+      semanticContainer: false,
+      child: InkWell(
+        child: Container(
+          child: Row(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.all(20),
+                child: Text(
+                  title,
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
+          decoration: BoxDecoration(
+              color: backgroundColor,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.elliptical(50, 20),
+                  bottomLeft: Radius.elliptical(30, 50))),
+          margin: EdgeInsets.only(left: leftMargin, top: 10),
         ),
-        decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.grey,
-              width: 1,
-            ),
-            borderRadius: BorderRadius.all(Radius.circular(10))),
-        margin: EdgeInsets.all(2),
+        onTap: onPressed,
       ),
-      onTap: onPressed,
     );
 
     /*

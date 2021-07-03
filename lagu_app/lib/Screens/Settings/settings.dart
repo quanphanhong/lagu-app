@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lagu_app/Controller/auth_service.dart';
-import 'package:lagu_app/Screens/AccountInfo/account_info.dart';
-import 'package:lagu_app/Screens/HobbyUpdate/hobby_update.dart';
-import 'package:lagu_app/Screens/Settings/components/settings_button.dart';
-import 'package:lagu_app/components/horizontal_or_line.dart';
+import 'package:lagu_app/Screens/Settings/components/account_info_button.dart';
+import 'package:lagu_app/Screens/Settings/components/hobby_update_button.dart';
+import 'package:lagu_app/Screens/Settings/components/language_update_button.dart';
+import 'package:lagu_app/Screens/Settings/components/sign_out_button.dart';
+
+import 'setting_pages/AccountInfo/account_info.dart';
+import 'setting_pages/HobbyUpdate/hobby_update.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -18,29 +21,24 @@ class SettingsState extends State<Settings> {
         title: Text('Settings'),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          HorizontalOrLine(height: 10.0, label: "User"),
-          SettingsButton(
-            title: 'Account Info',
+          AccountInfoButton(
             onPressed: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => AccountInfo()));
             },
           ),
-          SettingsButton(
-            title: 'Hobbies',
+          HobbyUpdateButton(
             onPressed: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => HobbyUpdate()));
             },
           ),
-          SettingsButton(
-            title: 'Languages',
+          LanguageUpdateButton(
             onPressed: () {},
           ),
-          HorizontalOrLine(height: 10.0, label: "Other"),
-          SettingsButton(
-            title: 'Sign Out',
+          SignOutButton(
             onPressed: () {
               new AuthService().signOut();
             },

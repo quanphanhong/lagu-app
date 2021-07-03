@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lagu_app/Controller/auth_service.dart';
 import 'package:lagu_app/Controller/user_handler.dart';
+import 'package:lagu_app/Screens/Settings/components/account_info_button.dart';
 import 'package:lagu_app/components/cover_photo_update.dart';
 import 'package:lagu_app/components/loading_screen.dart';
 import 'package:lagu_app/components/profile_picture_update.dart';
@@ -91,52 +92,57 @@ class AccountInfoState extends State<AccountInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Update Info'),
-      ),
-      body: isLoading
-          ? LoadingScreen()
-          : SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    height: 200,
-                    child: Stack(
-                      fit: StackFit.expand,
-                      // ignore: deprecated_member_use
-                      overflow: Overflow.visible,
-                      children: <Widget>[
-                        Column(
-                          children: <Widget>[_coverPhotoUpdate],
-                        ),
-                        Column(
-                          children: [
-                            SizedBox(
-                              height: 80,
-                            ),
-                            _profilePictureUpdate,
-                          ],
-                        )
-                      ],
+        body: Column(
+      children: <Widget>[
+        AccountInfoButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        isLoading
+            ? Expanded(child: LoadingScreen())
+            : SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      height: 200,
+                      child: Stack(
+                        fit: StackFit.expand,
+                        // ignore: deprecated_member_use
+                        overflow: Overflow.visible,
+                        children: <Widget>[
+                          Column(
+                            children: <Widget>[_coverPhotoUpdate],
+                          ),
+                          Column(
+                            children: [
+                              SizedBox(
+                                height: 80,
+                              ),
+                              _profilePictureUpdate,
+                            ],
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  _nicknameUpdate,
-                  _aboutMeUpdate,
-                  RoundedButton(
-                    text: 'Done',
-                    press: () async {
-                      await UserHandler.instance.updateUserInfo(
-                          'L8X3zaClVBgLAaQaCSwTcTQE6vz1',
-                          profilePicture,
-                          coverPhoto,
-                          nickname,
-                          aboutMe);
-                      Navigator.pop(context);
-                    },
-                  )
-                ],
+                    _nicknameUpdate,
+                    _aboutMeUpdate,
+                    RoundedButton(
+                      text: 'Done',
+                      press: () async {
+                        await UserHandler.instance.updateUserInfo(
+                            'L8X3zaClVBgLAaQaCSwTcTQE6vz1',
+                            profilePicture,
+                            coverPhoto,
+                            nickname,
+                            aboutMe);
+                        Navigator.pop(context);
+                      },
+                    )
+                  ],
+                ),
               ),
-            ),
-    );
+      ],
+    ));
   }
 }

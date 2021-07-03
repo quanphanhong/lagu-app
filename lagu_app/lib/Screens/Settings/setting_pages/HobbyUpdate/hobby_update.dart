@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lagu_app/Controller/hobby_handler.dart';
-import 'package:lagu_app/Screens/HobbyUpdate/components/hobby_bar.dart';
+import 'package:lagu_app/Screens/Settings/components/hobby_update_button.dart';
+import 'package:lagu_app/Screens/Settings/setting_pages/HobbyUpdate/components/hobby_bar.dart';
 import 'package:lagu_app/components/loading_screen.dart';
 import 'package:lagu_app/components/search_bar.dart';
 
@@ -18,11 +19,13 @@ class HobbyUpdateState extends State<HobbyUpdate> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Hobbies'),
-      ),
       body: Column(
         children: <Widget>[
+          HobbyUpdateButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
           SearchBar(
             controller: _searchBarController,
             onChanged: (value) {
@@ -43,7 +46,7 @@ class HobbyUpdateState extends State<HobbyUpdate> {
         stream: HobbyHandler.instance.hobbyStream(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return LoadingScreen();
+            return Expanded(child: LoadingScreen());
           } else {
             return ListView.builder(
               padding: EdgeInsets.all(10.0),

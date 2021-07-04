@@ -1,23 +1,42 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:lagu_app/Controller/auth_provider.dart';
+import 'package:lagu_app/Controller/auth_service.dart';
+import 'package:lagu_app/Controller/hobby_handler.dart';
+import 'package:lagu_app/components/loading_screen.dart';
 
-class HobbyBar extends StatelessWidget {
-  final DocumentSnapshot snapshot;
+class HobbyBar extends StatefulWidget {
+  final DocumentSnapshot habitSnapshot;
+  HobbyBar({@required this.habitSnapshot});
 
-  HobbyBar({@required this.snapshot});
+  @override
+  State<StatefulWidget> createState() =>
+      HobbyBarState(habitSnapshot: habitSnapshot);
+}
+
+class HobbyBarState extends State<HobbyBar> {
+  final DocumentSnapshot habitSnapshot;
+  HobbyBarState({@required this.habitSnapshot});
+  TextEditingController _additionalInfoController = new TextEditingController();
+  int _additionalInfoCounter = 0;
+  String _lastAdditionalInfoValue = '';
+  bool _isFilledWithCurrentValue = false;
 
   @override
   Widget build(BuildContext context) {
-    Map<String, Object> data = snapshot.data();
+    Map<String, Object> data = habitSnapshot.data();
 
     return InkWell(
       onTap: () {
+        setState(() => {
+              _additionalInfoCounter = 0,
+              _lastAdditionalInfoValue = '',
+              _isFilledWithCurrentValue = false
+            });
+
         showDialog(
           context: context,
-          builder: (context) => AlertDialog(
-            title: Center(child: Text(data['name'])),
-            content: Text(data['description']),
-          ),
+          builder: (context) => buildAlertDialog(context),
         );
       },
       child: Container(
@@ -32,6 +51,98 @@ class HobbyBar extends StatelessWidget {
             color: Colors.lightBlue,
             borderRadius: BorderRadius.all(Radius.circular(10))),
         margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+      ),
+    );
+  }
+
+  Widget buildAlertDialog(BuildContext context) {
+    Map<String, Object> data = habitSnapshot.data();
+    AuthService auth = Provider.of(context).auth;
+
+    return FutureBuilder(
+      future: HobbyHandler.instance.getUserHobby(
+        auth.getCurrentUID(),
+        habitSnapshot.id,
+      ),
+      builder: (builderContext, snapshot) {
+        if (snapshot.hasData && !_isFilledWithCurrentValue) {
+          try {
+            _additionalInfoController.text =
+                snapshot.data.docs[0]['additionalInfo'];
+            _isFilledWithCurrentValue = true;
+            setState(() =>
+                _additionalInfoCounter = _additionalInfoController.text.length);
+          } catch (e) {}
+        }
+
+        return AlertDialog(
+          backgroundColor: Color.fromARGB(255, 255, 245, 218),
+          title: Center(child: Text(data['name'])),
+          content: SingleChildScrollView(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: Column(
+              children: <Widget>[
+                buildDescriptionBox(context),
+                (snapshot.hasData)
+                    ? buildInfoTextField(context)
+                    : LoadingScreen(loadingSize: 20),
+                TextButton.icon(
+                  onPressed: () {
+                    HobbyHandler.instance.updateUserHobby(auth.getCurrentUID(),
+                        habitSnapshot.id, _additionalInfoController.text);
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(Icons.done),
+                  label: Text('Done'),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget buildDescriptionBox(BuildContext context) {
+    Map<String, Object> data = habitSnapshot.data();
+
+    return Container(
+      height: 200,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          color: Color.fromARGB(255, 214, 210, 196)),
+      padding: EdgeInsets.all(10),
+      child: SingleChildScrollView(
+        child: Text(
+          data['description'],
+          style: TextStyle(
+              color: Color.fromARGB(255, 93, 83, 74),
+              fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+
+  Widget buildInfoTextField(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 20),
+      child: TextField(
+        decoration: InputDecoration(
+            helperText: 'Description',
+            counterText: '$_additionalInfoCounter/50 characters',
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20)))),
+        keyboardType: TextInputType.multiline,
+        maxLines: null,
+        controller: _additionalInfoController,
+        onChanged: (value) {
+          if (value.length > 50)
+            _additionalInfoController.text = _lastAdditionalInfoValue;
+          else
+            _lastAdditionalInfoValue = value;
+          setState(() => _additionalInfoCounter = value.length);
+        },
       ),
     );
   }

@@ -50,6 +50,32 @@ class HobbyHandler {
     return completer.future;
   }
 
+  Future<QuerySnapshot> getUserHobby(String userId, String hobbyId) async {
+    QuerySnapshot result;
+
+    await FirebaseFirestore.instance
+        .collection('user_hobby')
+        .where('userId', isEqualTo: userId)
+        .where('hobbyId', isEqualTo: hobbyId)
+        .get()
+        .then((QuerySnapshot snapshot) => result = snapshot);
+
+    return result;
+  }
+
+  void updateUserHobby(
+      String userId, String hobbyId, String additionalInfo) async {
+    await FirebaseFirestore.instance
+        .collection('user_hobby')
+        .where('userId', isEqualTo: userId)
+        .where('hobbyId', isEqualTo: hobbyId)
+        .get()
+        .then((QuerySnapshot snapshot) => {
+              snapshot.docs.forEach((doc) =>
+                  doc.reference.update({'additionalInfo': additionalInfo}))
+            });
+  }
+
   Stream<QuerySnapshot> allHobbyStream({String query = ''}) async* {
     yield* FirebaseFirestore.instance
         .collection('hobbies')
@@ -77,7 +103,7 @@ class HobbyHandler {
         .snapshots();
   }
 
-  deleteHobby(String hobbyId) async {
+  void deleteHobby(String hobbyId) async {
     AuthService auth = new AuthService();
     String currentUID = auth.getCurrentUID();
     await FirebaseFirestore.instance
@@ -91,7 +117,7 @@ class HobbyHandler {
             });
   }
 
-  addHobby({String hobbyId, String additionalInfo = ''}) async {
+  void addHobby({String hobbyId, String additionalInfo = ''}) async {
     AuthService auth = new AuthService();
     String currentUID = auth.getCurrentUID();
 
@@ -101,6 +127,6 @@ class HobbyHandler {
       "additionalInfo": additionalInfo,
     };
 
-    return FirebaseFirestore.instance.collection('user_hobby').add(addingInfo);
+    await FirebaseFirestore.instance.collection('user_hobby').add(addingInfo);
   }
 }

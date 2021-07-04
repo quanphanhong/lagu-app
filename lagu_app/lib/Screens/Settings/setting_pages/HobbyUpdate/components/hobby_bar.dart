@@ -10,18 +10,29 @@ class HobbyBar extends StatelessWidget {
   Widget build(BuildContext context) {
     Map<String, Object> data = snapshot.data();
 
-    return Container(
-      height: 50,
-      child: Center(
-        child: Text(
-          data['name'],
-          style: TextStyle(fontSize: 20, color: Colors.white),
+    return InkWell(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Center(child: Text(data['name'])),
+            content: Text(data['description']),
+          ),
+        );
+      },
+      child: Container(
+        height: 50,
+        child: Center(
+          child: Text(
+            data['name'],
+            style: TextStyle(fontSize: 20, color: Colors.white),
+          ),
         ),
+        decoration: BoxDecoration(
+            color: Colors.lightBlue,
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       ),
-      decoration: BoxDecoration(
-          color: Colors.lightBlue,
-          borderRadius: BorderRadius.all(Radius.circular(10))),
-      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
     );
   }
 }

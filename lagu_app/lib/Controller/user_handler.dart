@@ -152,7 +152,6 @@ class UserHandler {
     yield* FirebaseFirestore.instance
         .collection('users')
         .where(FieldPath.documentId, whereNotIn: relativeIDs)
-        .where(FieldPath.documentId, isNotEqualTo: currentUID)
         .snapshots();
   }
 

@@ -2,8 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lagu_app/Models/hobby.dart';
 
-class HobbyCard extends StatelessWidget{
-
+class HobbyCard extends StatelessWidget {
   final Hobby item;
   final VoidCallback onClicked;
 
@@ -14,13 +13,16 @@ class HobbyCard extends StatelessWidget{
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context){
-    final double categoryHeight = MediaQuery.of(context).size.height * 0.30 - 50;
+  Widget build(BuildContext context) {
+    final double categoryHeight =
+        MediaQuery.of(context).size.height * 0.30 - 50;
     return Container(
       width: 150,
       margin: EdgeInsets.only(right: 20),
       height: categoryHeight,
-      decoration: BoxDecoration(color: Colors.blue.shade400, borderRadius: BorderRadius.all(Radius.circular(20.0))),
+      decoration: BoxDecoration(
+          color: Colors.blue.shade400,
+          borderRadius: BorderRadius.all(Radius.circular(20.0))),
       child: Container(
         child: Padding(
           padding: const EdgeInsets.all(12.0),
@@ -29,13 +31,16 @@ class HobbyCard extends StatelessWidget{
             children: <Widget>[
               Text(
                 item.hobbyName,
-                style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: 25,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
               ),
               SizedBox(
                 height: 10,
               ),
               Text(
-                item.hobbyDescription,
+                item.additionalInfo,
                 style: TextStyle(fontSize: 16, color: Colors.white),
               ),
             ],

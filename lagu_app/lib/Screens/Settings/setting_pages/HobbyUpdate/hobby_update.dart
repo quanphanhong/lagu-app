@@ -46,7 +46,7 @@ class HobbyUpdateState extends State<HobbyUpdate> {
         stream: HobbyHandler.instance.hobbyStream(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return Expanded(child: LoadingScreen());
+            return Center(child: LoadingScreen());
           } else {
             return ListView.builder(
               padding: EdgeInsets.all(10.0),

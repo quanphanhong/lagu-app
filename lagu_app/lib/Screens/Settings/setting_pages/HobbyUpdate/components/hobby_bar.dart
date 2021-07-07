@@ -6,17 +6,22 @@ import 'package:lagu_app/Controller/hobby_handler.dart';
 import 'package:lagu_app/components/loading_screen.dart';
 
 class HobbyBar extends StatefulWidget {
-  final DocumentSnapshot habitSnapshot;
-  HobbyBar({@required this.habitSnapshot});
+  final DocumentSnapshot hobbySnapshot;
+  final bool isSearchResult;
+  HobbyBar({@required this.hobbySnapshot, @required this.isSearchResult});
 
   @override
-  State<StatefulWidget> createState() =>
-      HobbyBarState(habitSnapshot: habitSnapshot);
+  State<StatefulWidget> createState() => HobbyBarState(
+        hobbySnapshot: hobbySnapshot,
+        isSearchResult: isSearchResult,
+      );
 }
 
 class HobbyBarState extends State<HobbyBar> {
-  final DocumentSnapshot habitSnapshot;
-  HobbyBarState({@required this.habitSnapshot});
+  final DocumentSnapshot hobbySnapshot;
+  final bool isSearchResult;
+  HobbyBarState({@required this.hobbySnapshot, @required this.isSearchResult});
+
   TextEditingController _additionalInfoController = new TextEditingController();
   int _additionalInfoCounter = 0;
   String _lastAdditionalInfoValue = '';
@@ -24,45 +29,51 @@ class HobbyBarState extends State<HobbyBar> {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, Object> data = habitSnapshot.data();
+    return isSearchResult
+        ? buildHobbyBar(context)
+        : InkWell(
+            onTap: () {
+              setState(() => {
+                    _additionalInfoCounter = 0,
+                    _lastAdditionalInfoValue = '',
+                    _isFilledWithCurrentValue = false
+                  });
 
-    return InkWell(
-      onTap: () {
-        setState(() => {
-              _additionalInfoCounter = 0,
-              _lastAdditionalInfoValue = '',
-              _isFilledWithCurrentValue = false
-            });
+              showDialog(
+                context: context,
+                builder: (context) => buildAlertDialog(context),
+              );
+            },
+            child: buildHobbyBar(context),
+          );
+  }
 
-        showDialog(
-          context: context,
-          builder: (context) => buildAlertDialog(context),
-        );
-      },
-      child: Container(
-        height: 50,
-        child: Center(
-          child: Text(
-            data['name'],
-            style: TextStyle(fontSize: 20, color: Colors.white),
-          ),
+  Widget buildHobbyBar(BuildContext context) {
+    Map<String, Object> data = hobbySnapshot.data();
+
+    return Container(
+      height: 50,
+      child: Center(
+        child: Text(
+          data['name'],
+          style: TextStyle(fontSize: 20, color: Colors.white),
         ),
-        decoration: BoxDecoration(
-            color: Colors.lightBlue,
-            borderRadius: BorderRadius.all(Radius.circular(10))),
-        margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       ),
+      decoration: BoxDecoration(
+          color: Colors.lightBlue,
+          borderRadius: BorderRadius.all(Radius.circular(10))),
+      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
     );
   }
 
   Widget buildAlertDialog(BuildContext context) {
-    Map<String, Object> data = habitSnapshot.data();
+    Map<String, Object> data = hobbySnapshot.data();
     AuthService auth = Provider.of(context).auth;
 
     return FutureBuilder(
       future: HobbyHandler.instance.getUserHobby(
         auth.getCurrentUID(),
-        habitSnapshot.id,
+        hobbySnapshot.id,
       ),
       builder: (builderContext, snapshot) {
         if (snapshot.hasData && !_isFilledWithCurrentValue) {
@@ -90,7 +101,7 @@ class HobbyBarState extends State<HobbyBar> {
                 TextButton.icon(
                   onPressed: () {
                     HobbyHandler.instance.updateUserHobby(auth.getCurrentUID(),
-                        habitSnapshot.id, _additionalInfoController.text);
+                        hobbySnapshot.id, _additionalInfoController.text);
                     Navigator.pop(context);
                   },
                   icon: Icon(Icons.done),
@@ -105,7 +116,7 @@ class HobbyBarState extends State<HobbyBar> {
   }
 
   Widget buildDescriptionBox(BuildContext context) {
-    Map<String, Object> data = habitSnapshot.data();
+    Map<String, Object> data = hobbySnapshot.data();
 
     return Container(
       height: 200,

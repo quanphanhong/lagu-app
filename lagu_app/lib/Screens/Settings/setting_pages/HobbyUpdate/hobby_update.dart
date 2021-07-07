@@ -54,7 +54,10 @@ class HobbyUpdateState extends State<HobbyUpdate> {
                 final item = snapshot.data.docs[index];
                 return Dismissible(
                   key: Key(item['name']),
-                  child: HobbyBar(habitSnapshot: item),
+                  child: HobbyBar(
+                    hobbySnapshot: item,
+                    isSearchResult: false,
+                  ),
                   onDismissed: (direction) async {
                     HobbyHandler.instance.deleteHobby(item.id);
                   },
@@ -83,7 +86,8 @@ class HobbyUpdateState extends State<HobbyUpdate> {
                 final item = snapshot.data.docs[index];
                 return InkWell(
                   child: HobbyBar(
-                    habitSnapshot: item,
+                    hobbySnapshot: item,
+                    isSearchResult: true,
                   ),
                   onTap: () async {
                     HobbyHandler.instance.addHobby(hobbyId: item.id);

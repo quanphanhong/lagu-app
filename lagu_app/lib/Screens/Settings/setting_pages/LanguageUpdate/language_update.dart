@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lagu_app/Controller/language_handler.dart';
 import 'package:lagu_app/Screens/Settings/components/language_update_button.dart';
+import 'package:lagu_app/Screens/Settings/setting_pages/LanguageUpdate/components/language_bar.dart';
 import 'package:lagu_app/components/loading_screen.dart';
 import 'package:lagu_app/components/search_bar.dart';
 
@@ -30,18 +32,18 @@ class LanguageUpdateState extends State<LanguageUpdate> {
               setState(() => searchQuery = value);
             },
           ),
-          // (searchQuery == '')
-          //     ? buildSelectedHobbiesWidget(context)
-          //     : buildSearchResultWidget()
+          (searchQuery == '')
+              ? buildSelectedLanguagesWidget(context)
+              : buildSearchResultWidget()
         ],
       ),
     );
   }
 
-  /*Widget buildSelectedHobbiesWidget(BuildContext context) {
+  Widget buildSelectedLanguagesWidget(BuildContext context) {
     return Flexible(
       child: StreamBuilder(
-        stream: HobbyHandler.instance.hobbyStream(),
+        stream: LanguageHandler.instance.languageStream(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(child: LoadingScreen());
@@ -52,9 +54,12 @@ class LanguageUpdateState extends State<LanguageUpdate> {
                 final item = snapshot.data.docs[index];
                 return Dismissible(
                   key: Key(item['name']),
-                  child: HobbyBar(habitSnapshot: item),
+                  child: LanguageBar(
+                    languageSnapshot: item,
+                    isSearchResult: false,
+                  ),
                   onDismissed: (direction) async {
-                    HobbyHandler.instance.deleteHobby(item.id);
+                    LanguageHandler.instance.deleteLanguage(item.id);
                   },
                 );
               },
@@ -70,7 +75,7 @@ class LanguageUpdateState extends State<LanguageUpdate> {
   Widget buildSearchResultWidget() {
     return Flexible(
       child: StreamBuilder(
-        stream: HobbyHandler.instance.allHobbyStream(query: searchQuery),
+        stream: LanguageHandler.instance.allLanguageStream(query: searchQuery),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Scaffold();
@@ -80,11 +85,12 @@ class LanguageUpdateState extends State<LanguageUpdate> {
               itemBuilder: (context, index) {
                 final item = snapshot.data.docs[index];
                 return InkWell(
-                  child: HobbyBar(
-                    habitSnapshot: item,
+                  child: LanguageBar(
+                    languageSnapshot: item,
+                    isSearchResult: true,
                   ),
                   onTap: () async {
-                    HobbyHandler.instance.addHobby(hobbyId: item.id);
+                    LanguageHandler.instance.addLanguage(languageId: item.id);
                     _searchBarController.clear();
                     setState(() => searchQuery = '');
                   },
@@ -97,5 +103,5 @@ class LanguageUpdateState extends State<LanguageUpdate> {
         },
       ),
     );
-  }*/
+  }
 }

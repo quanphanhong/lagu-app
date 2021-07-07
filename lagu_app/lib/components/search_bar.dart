@@ -15,7 +15,7 @@ class SearchBar extends StatelessWidget {
         onChanged: onChanged,
         style: TextStyle(fontSize: 25),
         decoration: InputDecoration(
-            hintText: 'Search for hobby',
+            hintText: 'Search...',
             hintStyle: TextStyle(color: Colors.grey),
             fillColor: Colors.white),
         controller: controller,

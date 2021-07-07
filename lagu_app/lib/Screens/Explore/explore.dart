@@ -38,6 +38,36 @@ class ExploreState extends State<Explore> {
                     );
                     return Dismissible(
                       key: UniqueKey(),
+                      background: Container(
+                        child: Center(
+                          child: Text(
+                            'Add Friend',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 60),
+                          ),
+                        ),
+                        decoration: BoxDecoration(
+                            color: Colors.lightBlue,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                      ),
+                      secondaryBackground: Container(
+                        child: Center(
+                          child: Text(
+                            'Ignore',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 60),
+                          ),
+                        ),
+                        decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                      ),
                       onDismissed: (direction) {
                         if (direction == DismissDirection.startToEnd) {
                           UserHandler.instance.addFriend(peerId: user.userId);

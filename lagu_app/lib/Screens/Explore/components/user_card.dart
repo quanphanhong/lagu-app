@@ -25,6 +25,14 @@ class UserCardState extends State<UserCard> {
       width: 400,
       height: 480,
       decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: Offset(0, 3),
+          )
+        ],
         color: Colors.white,
         border: Border.all(color: Colors.white, width: 2.0),
         borderRadius: BorderRadius.all(Radius.circular(20)),

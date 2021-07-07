@@ -105,4 +105,32 @@ class LanguageHandler {
         .collection('user_language')
         .add(addingInfo);
   }
+
+  Future<QuerySnapshot> getUserLanguage(
+      String userId, String languageId) async {
+    QuerySnapshot result;
+
+    await FirebaseFirestore.instance
+        .collection('user_language')
+        .where('userId', isEqualTo: userId)
+        .where('languageId', isEqualTo: languageId)
+        .get()
+        .then((QuerySnapshot snapshot) => result = snapshot);
+
+    return result;
+  }
+
+  void updateUserLanguage(String userId, String languageId, int level) async {
+    await FirebaseFirestore.instance
+        .collection('user_language')
+        .where('userId', isEqualTo: userId)
+        .where('languageId', isEqualTo: languageId)
+        .get()
+        .then(
+          (QuerySnapshot snapshot) => {
+            snapshot.docs
+                .forEach((doc) => doc.reference.update({'level': level}))
+          },
+        );
+  }
 }

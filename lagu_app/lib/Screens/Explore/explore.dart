@@ -29,13 +29,24 @@ class ExploreState extends State<Explore> {
                 children: List.generate(
                   userCollection.length,
                   (index) {
-                    User user = new User(
-                      userId: userCollection[index].id,
-                      nickname: userCollection[index]['nickname'],
-                      profilePicture: userCollection[index]['profilePicture'],
-                      coverPhoto: userCollection[index]['coverPhoto'],
-                      aboutMe: userCollection[index]['aboutMe'],
-                    );
+                    User user;
+                    try {
+                      user = new User(
+                        userId: userCollection[index].id,
+                        nickname: userCollection[index]['nickname'],
+                        profilePicture: userCollection[index]['profilePicture'],
+                        coverPhoto: userCollection[index]['coverPhoto'],
+                        aboutMe: userCollection[index]['aboutMe'],
+                      );
+                    } catch (e) {
+                      user = new User(
+                          userId: '',
+                          nickname: '',
+                          profilePicture: '',
+                          coverPhoto: '',
+                          aboutMe: '');
+                    }
+
                     return Dismissible(
                       key: UniqueKey(),
                       background: Container(

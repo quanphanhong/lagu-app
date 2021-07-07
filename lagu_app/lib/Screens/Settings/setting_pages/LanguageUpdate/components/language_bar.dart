@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:lagu_app/Screens/Settings/setting_pages/LanguageUpdate/components/level_picker.dart';
 
 class LanguageBar extends StatefulWidget {
   final DocumentSnapshot languageSnapshot;
@@ -23,6 +24,12 @@ class LanguageBarState extends State<LanguageBar> {
     Map<String, Object> data = languageSnapshot.data();
 
     return InkWell(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (context) => buildAlertDialog(context),
+        );
+      },
       child: Container(
         height: 50,
         child: Row(
@@ -45,11 +52,20 @@ class LanguageBarState extends State<LanguageBar> {
           ],
         ),
         decoration: BoxDecoration(
-          color: Colors.red,
+          color: Colors.redAccent,
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
         margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       ),
+    );
+  }
+
+  Widget buildAlertDialog(BuildContext context) {
+    Map<String, Object> data = languageSnapshot.data();
+
+    return AlertDialog(
+      title: Text(data['name']),
+      content: LevelPicker(languageId: languageSnapshot.id),
     );
   }
 }

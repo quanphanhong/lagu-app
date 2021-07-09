@@ -39,13 +39,13 @@ class BodyState extends State<Body> {
             RoundedInputField(
               hintText: "Email",
               onChanged: (value) {
-                setState(() => email = value);
+                email = value;
               },
             ),
             RoundedPasswordField(
               hintText: "Password",
               onChanged: (value) {
-                setState(() => password = value);
+                password = value;
               },
             ),
             RoundedButton(

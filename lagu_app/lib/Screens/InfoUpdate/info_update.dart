@@ -26,32 +26,32 @@ class InfoUpdateState extends State<InfoUpdate> {
         children: <Widget>[
           ProfilePictureUpdate(
             onChanged: (value) {
-              setState(() => profileUrl = value);
+              profileUrl = value;
             },
           ),
           RoundedInputField(
             hintText: 'Nickname',
             icon: Icons.supervised_user_circle,
             onChanged: (value) {
-              setState(() => nickname = value);
+              nickname = value;
             },
           ),
           RoundedInputField(
             hintText: 'About me',
             icon: Icons.info,
             onChanged: (value) {
-              setState(() => aboutMe = value);
+              aboutMe = value;
             },
           ),
           CoverPhotoUpdate(
             onChanged: (value) {
-              setState(() => coverPhoto = value);
+              coverPhoto = value;
             },
           ),
           TextButton.icon(
             onPressed: () async {
-              await UserHandler.instance
-                  .insertCurrentUserInfo(profileUrl, coverPhoto, nickname, aboutMe);
+              await UserHandler.instance.insertCurrentUserInfo(
+                  profileUrl, coverPhoto, nickname, aboutMe);
             },
             icon: Icon(
               Icons.done,

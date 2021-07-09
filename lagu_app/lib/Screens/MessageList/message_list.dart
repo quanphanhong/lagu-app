@@ -70,12 +70,12 @@ class MessageListState extends State<MessageList> {
                           ? FirebaseFirestore.instance
                               .collection('users')
                               .where(FieldPath.documentId,
-                                  isEqualTo: relationshipDoc['user_2'])
+                                  isEqualTo: relationshipDoc['user_1'])
                               .snapshots()
                           : FirebaseFirestore.instance
                               .collection('users')
                               .where(FieldPath.documentId,
-                                  isEqualTo: relationshipDoc['user_1'])
+                                  isEqualTo: relationshipDoc['user_2'])
                               .snapshots(),
                       builder: (userContext, userSnapshot) {
                         if (userSnapshot.hasData) {

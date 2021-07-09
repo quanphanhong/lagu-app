@@ -26,7 +26,7 @@ class CoverPhotoState extends State<CoverPhotoUpdate> {
           height: 200,
           decoration: BoxDecoration(
               image: DecorationImage(
-                image: (coverPhoto != '')
+                image: (coverPhoto != null && coverPhoto != '')
                     ? NetworkImage(coverPhoto)
                     : AssetImage('assets/images/default-cover-photo.jpg'),
                 fit: BoxFit.cover,

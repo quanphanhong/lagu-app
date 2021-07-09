@@ -21,42 +21,46 @@ class LanguageBarState extends State<LanguageBar> {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, Object> data = languageSnapshot.data();
+    return isSearchResult
+        ? buildLanguageBar(context)
+        : InkWell(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) => buildAlertDialog(context),
+              );
+            },
+            child: buildLanguageBar(context));
+  }
 
-    return InkWell(
-      onTap: () {
-        showDialog(
-          context: context,
-          builder: (context) => buildAlertDialog(context),
-        );
-      },
-      child: Container(
-        height: 50,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            (data['symbol'] != null && data['symbol'] != '')
-                ? Image.network(
-                    data['symbol'],
-                    width: 20,
-                    height: 20,
-                  )
-                : Container(),
-            Container(
-              margin: EdgeInsets.only(left: 10),
-              child: Text(
-                data['name'],
-                style: TextStyle(color: Colors.white, fontSize: 20),
-              ),
+  Widget buildLanguageBar(BuildContext context) {
+    Map<String, Object> data = languageSnapshot.data();
+    return Container(
+      height: 50,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          (data['symbol'] != null && data['symbol'] != '')
+              ? Image.network(
+                  data['symbol'],
+                  width: 20,
+                  height: 20,
+                )
+              : Container(),
+          Container(
+            margin: EdgeInsets.only(left: 10),
+            child: Text(
+              data['name'],
+              style: TextStyle(color: Colors.white, fontSize: 20),
             ),
-          ],
-        ),
-        decoration: BoxDecoration(
-          color: Colors.redAccent,
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-        ),
-        margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+          ),
+        ],
       ),
+      decoration: BoxDecoration(
+        color: Colors.redAccent,
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
+      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
     );
   }
 

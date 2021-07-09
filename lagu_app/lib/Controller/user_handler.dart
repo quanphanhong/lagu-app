@@ -77,15 +77,13 @@ class UserHandler {
     String currentUID = auth.getCurrentUID();
     await FirebaseFirestore.instance
         .collection('relationships')
-        .where(FieldPath.documentId, isGreaterThanOrEqualTo: currentUID)
-        .where(FieldPath.documentId, isLessThan: currentUID + 'z')
         .where('status', isEqualTo: Relationship.STATE_ACCEPTED)
         .get()
         .then((collection) => {
               collection.docs.forEach((doc) {
                 if (doc['user_1'] == currentUID)
                   friendIDs.add(doc['user_2']);
-                else
+                else if (doc['user_2'] == currentUID)
                   friendIDs.add(doc['user_1']);
               })
             });
@@ -101,16 +99,14 @@ class UserHandler {
     String currentUID = auth.getCurrentUID();
     await FirebaseFirestore.instance
         .collection('relationships')
-        .where(FieldPath.documentId, isGreaterThanOrEqualTo: currentUID)
-        .where(FieldPath.documentId, isLessThan: currentUID + 'z')
-        .where('status', isEqualTo: Relationship.STATE_PENDING)
         .get()
         .then((collection) => {
               collection.docs.forEach((doc) {
-                if (doc['actionUser'] != currentUID) {
+                if (doc['actionUser'] != currentUID &&
+                    doc['status'] == Relationship.STATE_PENDING) {
                   if (doc['user_1'] == currentUID)
                     friendIDs.add(doc['user_2']);
-                  else
+                  else if (doc['user_2'] == currentUID)
                     friendIDs.add(doc['user_1']);
                 }
               })
@@ -130,21 +126,21 @@ class UserHandler {
     AuthService auth = new AuthService();
     List<String> relativeIDs = new List.empty(growable: true);
     String currentUID = auth.getCurrentUID();
+    relativeIDs.add(currentUID);
 
     await FirebaseFirestore.instance
         .collection('relationships')
-        .where(FieldPath.documentId, isGreaterThanOrEqualTo: currentUID)
-        .where(FieldPath.documentId, isLessThan: currentUID + 'z')
-        .where(FieldPath.documentId, isGreaterThan: lastId)
         .get()
         .then((collection) => {
               collection.docs.forEach((doc) {
-                if (doc['user_1'] == currentUID) {
-                  if (doc['user_2'] != currentUID)
-                    relativeIDs.add(doc['user_2']);
-                } else {
-                  if (doc['user_1'] != currentUID)
-                    relativeIDs.add(doc['user_1']);
+                if (doc['status'] != Relationship.STATE_DECLINED) {
+                  if (doc['user_1'] == currentUID) {
+                    if (doc['user_2'] != currentUID)
+                      relativeIDs.add(doc['user_2']);
+                  } else if (doc['user_2'] == currentUID) {
+                    if (doc['user_1'] != currentUID)
+                      relativeIDs.add(doc['user_1']);
+                  }
                 }
               })
             });

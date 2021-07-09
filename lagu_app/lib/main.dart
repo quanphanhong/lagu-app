@@ -44,7 +44,7 @@ class HomeController extends StatefulWidget {
 }
 
 class HomeState extends State<HomeController> {
-  Widget renderingWidget;
+  Widget renderingWidget = InfoUpdate();
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,7 @@ class HomeState extends State<HomeController> {
           } else
             return LoginScreen();
         }
-        return LoginScreen();
+        return InfoUpdate();
       },
     );
   }

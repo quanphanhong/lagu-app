@@ -27,7 +27,7 @@ class ProfilePictureState extends State<ProfilePictureUpdate> {
           height: 120.0,
           decoration: BoxDecoration(
               image: DecorationImage(
-                image: (profilePicture != '')
+                image: (profilePicture != null && profilePicture != '')
                     ? NetworkImage(profilePicture)
                     : AssetImage('assets/images/default-avatar.png'),
                 fit: BoxFit.cover,

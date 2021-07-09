@@ -24,6 +24,7 @@ class AccountInfoState extends State<AccountInfo> {
   String nickname = '';
   String aboutMe = '';
   bool isLoading = true;
+  String currentUserId = new AuthService().getCurrentUID();
 
   initializeWidgets() {
     _nicknameUpdate = RoundedInputField(
@@ -44,7 +45,6 @@ class AccountInfoState extends State<AccountInfo> {
   init() async {
     initializeWidgets();
 
-    String currentUserId = new AuthService().getCurrentUID();
     UserHandler.instance.getUser(currentUserId).then(
           (user) => {
             if (user == null)
@@ -92,57 +92,58 @@ class AccountInfoState extends State<AccountInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      children: <Widget>[
-        AccountInfoButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        isLoading
-            ? Expanded(child: LoadingScreen())
-            : SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      height: 200,
-                      child: Stack(
-                        fit: StackFit.expand,
-                        // ignore: deprecated_member_use
-                        overflow: Overflow.visible,
-                        children: <Widget>[
-                          Column(
-                            children: <Widget>[_coverPhotoUpdate],
-                          ),
-                          Column(
-                            children: [
-                              SizedBox(
-                                height: 80,
-                              ),
-                              _profilePictureUpdate,
-                            ],
-                          )
-                        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            AccountInfoButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            isLoading
+                ? Expanded(child: LoadingScreen())
+                : Column(
+                    children: <Widget>[
+                      Container(
+                        height: 200,
+                        child: Stack(
+                          fit: StackFit.expand,
+                          // ignore: deprecated_member_use
+                          overflow: Overflow.visible,
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[_coverPhotoUpdate],
+                            ),
+                            Column(
+                              children: [
+                                SizedBox(
+                                  height: 80,
+                                ),
+                                _profilePictureUpdate,
+                              ],
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    _nicknameUpdate,
-                    _aboutMeUpdate,
-                    RoundedButton(
-                      text: 'Done',
-                      press: () async {
-                        await UserHandler.instance.updateUserInfo(
-                            'L8X3zaClVBgLAaQaCSwTcTQE6vz1',
-                            profilePicture,
-                            coverPhoto,
-                            nickname,
-                            aboutMe);
-                        Navigator.pop(context);
-                      },
-                    )
-                  ],
-                ),
-              ),
-      ],
-    ));
+                      _nicknameUpdate,
+                      _aboutMeUpdate,
+                      RoundedButton(
+                        text: 'Done',
+                        press: () async {
+                          await UserHandler.instance.updateUserInfo(
+                              currentUserId,
+                              profilePicture,
+                              coverPhoto,
+                              nickname,
+                              aboutMe);
+                          Navigator.pop(context);
+                        },
+                      )
+                    ],
+                  ),
+          ],
+        ),
+      ),
+    );
   }
 }
